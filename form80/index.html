@@ -30,6 +30,7 @@
   var p = new URLSearchParams(location.search), t = p.get("t") || "", keep = new URLSearchParams();
   keep.set("f80", /^[a-f0-9]{64}$/.test(t) ? t : "x");
   if (p.get("preview") === "1") keep.set("preview", "1");
+  if (p.get("edit") === "1") keep.set("edit", "1");   // staff checking the pre-fill before sending
   var f = document.getElementById("f");
   f.setAttribute("credentialless", "");
   f.src = HUB + "?" + keep.toString();
