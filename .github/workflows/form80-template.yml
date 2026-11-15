@@ -1,0 +1,27 @@
+# Keeps forms/form80.pdf the same as the current Home Affairs Form 80 (unlocked so it can be filled in the browser).
+# Runs every Monday and when started by hand. If Home Affairs changes the form, it opens an issue instead of
+# replacing it, because the Staff Hub's field map must be checked first.
+name: Form 80 template
+on:
+  schedule: [{ cron: '17 21 * * 0' }]
+  workflow_dispatch:
+permissions: { contents: write, issues: write }
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y qpdf poppler-utils >/dev/null
+      - name: Download and compare
+        id: cmp
+        run: |
+          curl -fsSL -A "Mozilla/5.0" -o new.pdf https://immi.homeaffairs.gov.au/form-listing/forms/80.pdf
+          qpdf --decrypt new.pdf open.pdf
+          old=$(pdftotext -l 1 forms/form80.pdf - | grep -o "Design date [0-9/]*" | head -1 || true)
+          new=$(pdftotext open.pdf - | grep -o "(Design date [0-9/]*)" | head -1 || true)
+          echo "old=$old new=$new"
+          if pdftotext open.pdf - | grep -q "Design date 03/21"; then echo "same=1" >> $GITHUB_OUTPUT; else echo "same=0" >> $GITHUB_OUTPUT; fi
+      - name: Tell the director if the form changed
+        if: steps.cmp.outputs.same == '0'
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: gh issue create --title "Home Affairs changed Form 80" --body "The Form 80 on the Home Affairs website is no longer the 03/21 version. The Staff Hub keeps using the 03/21 copy until Claude re-checks the field map (build/f80 in umc-automation)." || true
