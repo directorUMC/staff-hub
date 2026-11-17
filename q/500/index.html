@@ -1,0 +1,1175 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Visa Questionnaire</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F6FA;--surface:#FFFFFF;--ink:#1B2330;--muted:#5B6573;--line:#DCE1E8;
+  --accent:#1F63A8;--accent-soft:#E8F1FA;--accent-ink:#FFFFFF;
+  --green:#2F8A3B;--green-soft:#E7F4E8;--green-ink:#FFFFFF;
+  --flag:#A15C12;--flag-soft:#FBF0E1;--danger:#A33A3A;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#12171E;--surface:#1A212B;--ink:#E6EAF0;--muted:#9AA5B4;--line:#2E3844;
+  --accent:#6FAAE3;--accent-soft:#172A3E;--accent-ink:#0B1622;
+  --green:#5DBB63;--green-soft:#1C2E1D;--green-ink:#0C1A0D;
+  --flag:#E0A35A;--flag-soft:#33271A;--danger:#E07A7A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#12171E;--surface:#1A212B;--ink:#E6EAF0;--muted:#9AA5B4;--line:#2E3844;
+  --accent:#6FAAE3;--accent-soft:#172A3E;--accent-ink:#0B1622;
+  --green:#5DBB63;--green-soft:#1C2E1D;--green-ink:#0C1A0D;
+  --flag:#E0A35A;--flag-soft:#33271A;--danger:#E07A7A;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.top{background:#FFFFFF;color:#1B2330}
+.top::after{content:"";display:block;height:5px;background:linear-gradient(90deg,#1F63A8 0 60%,#4FAE4A 60% 82%,#F2C230 82% 100%)}
+.top-in{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{display:block;height:80px;width:auto}
+.contact{font-size:13px;color:#5B6573;text-align:right}
+.contact a{color:#1F63A8;text-decoration:none}
+.hero{max-width:1180px;margin:0 auto;padding:36px 24px 6px}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,38px);line-height:1.15;margin:0 0 10px;text-wrap:balance}
+.hero p{margin:0;color:var(--muted);max-width:66ch}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0 0;padding:0;list-style:none;counter-reset:st;max-width:920px}
+.steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px 14px 52px;position:relative;font-size:14px;color:var(--muted)}
+.steps li strong{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+.steps li::before{content:counter(st);position:absolute;left:16px;top:14px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:600;display:grid;place-items:center}
+.banner{margin-top:18px;max-width:920px;font-size:14px;border-radius:8px;padding:12px 16px;background:var(--flag-soft)}
+.banner.ok{background:var(--green-soft)}
+.shell{max-width:1180px;margin:0 auto;padding:28px 24px 80px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;align-items:start}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+.rail ol{list-style:none;margin:0;padding:0;counter-reset:s}
+.rail li{counter-increment:s}
+.rail ol button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:baseline;width:100%;padding:8px 10px;border-radius:6px;color:var(--muted);font-size:14px;box-sizing:border-box}
+.rail ol button::before{content:counter(s);font-variant-numeric:tabular-nums;min-width:18px;font-size:12.5px}
+.rail ol li.fin button::before{content:"✓"}
+.rail ol button:hover{background:var(--accent-soft);color:var(--ink)}
+.rail ol button[aria-current="step"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:inset 3px 0 0 var(--accent)}
+.rail ol button .tick{margin-left:auto;font-size:12px;color:var(--green)}
+.rail ol button .miss{margin-left:auto;font-size:12px;color:var(--flag);white-space:nowrap}
+.rail ol button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.progress{margin:18px 10px 0;font-size:12.5px;color:var(--muted)}
+.bar{height:4px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);transition:width .3s}
+.saved{font-size:12.5px;color:var(--muted);margin:12px 10px 0}
+.mbar{display:none}
+.main{min-width:0}
+.sec-h{margin:0 0 6px;font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;text-wrap:balance}
+.sec-intro{color:var(--muted);margin:0 0 26px;max-width:66ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 22px}
+.f{grid-column:1/-1;min-width:0}
+.f{position:relative}
+.geo{position:absolute;left:0;right:0;z-index:40;margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);overflow:hidden}
+.geo button{all:unset;box-sizing:border-box;display:block;width:100%;padding:10px 14px;font-size:14.5px;cursor:pointer;border-top:1px solid var(--line)}
+.geo button:first-child{border-top:none}
+.geo button:hover,.geo button.act{background:var(--accent-soft)}
+.geo .by{font-size:11px;color:var(--muted);padding:4px 14px 6px;text-align:right;border-top:1px solid var(--line)}
+.geo .by a{color:var(--muted)}
+.f.half{grid-column:auto}
+.f>label,.f>.lab{display:block;font-weight:500;margin-bottom:6px}
+.req{color:var(--flag);margin-left:3px}
+.info{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:8px;border-radius:50%;border:none;background:var(--green);color:var(--green-ink);font:italic 700 13px/1 Georgia,serif;cursor:pointer;vertical-align:1px;padding:0;position:relative}
+.info::after{content:"";position:absolute;inset:-11px}
+.info[aria-expanded="true"]{box-shadow:0 0 0 3px var(--green-soft)}
+.info:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.tipbox{font-size:13.5px;font-weight:400;background:var(--green-soft);border-left:3px solid var(--green);border-radius:6px;padding:10px 12px;margin:4px 0 10px;color:var(--ink)}
+input[type=text],input[type=email],input[type=tel],input[type=date],select,textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-height:46px}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input.pre{background:var(--accent-soft)}
+.f.invalid input,.f.invalid select,.f.invalid textarea{border-color:var(--flag)}
+.f.invalid .err{display:block}
+.err{display:none;font-size:12.5px;color:var(--flag);margin-top:5px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:88px;padding:8px 16px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;font-size:14.5px;text-align:center}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label.on{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.checks{display:grid;gap:8px}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer}
+.checks label.on{border-color:var(--accent);background:var(--accent-soft)}
+.checks input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent);flex:none}
+.stmts{margin:0 0 12px;padding-left:20px;display:grid;gap:6px}
+.sub{grid-column:1/-1;margin:10px 0 -6px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--serif);font-weight:600;font-size:18px}
+.note{grid-column:1/-1;font-size:14px;color:var(--ink);background:var(--accent-soft);border-radius:6px;padding:10px 14px;margin:0}
+.note.warn{background:var(--flag-soft)}
+.qlist{grid-column:1/-1;margin:0;padding:18px 20px 18px 44px;display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:14.5px}
+.qlist li{padding-left:4px}
+.qlist li::marker{color:var(--accent);font-weight:600}
+.oshc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px;display:grid;gap:16px}
+.oq{background:var(--accent-soft);border-radius:10px;padding:14px 16px}
+.oq-h{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px}
+.oq-r{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:14.5px}
+.oq-r:first-of-type{border-top:none}
+.oq-r span{flex:1;color:var(--muted)}
+.oq-r .cp{padding:2px 8px;font-size:12.5px;color:var(--accent)}
+.oq-n{font-size:13px;color:var(--muted);margin-top:6px}
+.oq-l{display:block;font-size:14px;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:38px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
+.chip:hover{border-color:var(--accent)}
+.oq-buy{justify-self:start;text-decoration:none;display:inline-flex;align-items:center}
+.oq-steps{margin:0;padding-left:20px;font-size:13.5px;color:var(--muted);display:grid;gap:4px}
+select.pre,textarea.pre{background:var(--accent-soft)}
+body.started .hero>p:not(.eyebrow),body.started .steps{display:none}
+body.started .hero{padding-bottom:0}
+body.started .hero h1{font-size:clamp(22px,3vw,28px)}
+.rep{grid-column:1/-1;display:grid;gap:16px}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:20px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.card-h strong{font-size:15px;font-weight:600}
+.btn{font:inherit;font-weight:500;border-radius:6px;padding:10px 18px;min-height:46px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.go{background:var(--green);border-color:var(--green);color:var(--green-ink)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.link{border:none;background:none;padding:6px 8px;min-height:0;color:var(--muted);font-size:13.5px}
+.btn.link:hover{color:var(--danger)}
+.btn.add{justify-self:start;border-style:dashed}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .r{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+.status{font-size:14px;color:var(--muted);min-height:20px;margin:12px 0 0}
+.status.ok{color:var(--green)}.status.bad{color:var(--flag)}
+.upl{grid-column:1/-1;display:grid;gap:10px}
+.urow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:12px 14px}
+.urow .nm{font-weight:500}
+.urow .fl{font-size:13px;color:var(--muted);word-break:break-all}
+.urow .fl b{color:var(--green);font-weight:600}
+.urow .acts{display:flex;gap:6px;align-items:center}
+.pick{position:relative;overflow:hidden}
+.pick input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.rv{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 16px;overflow:hidden}
+.rv-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;background:var(--accent-soft)}
+.rv-h b{font-family:var(--serif);font-size:16.5px}
+.rv table{width:100%;border-collapse:collapse;font-size:14px}
+.rv td{padding:9px 16px;border-top:1px solid var(--line);vertical-align:top}
+.rv td.q{width:46%;color:var(--muted)}
+.rv tr.grp td{background:var(--paper);font-weight:600;color:var(--ink)}
+.rv .blank{color:var(--flag);font-style:italic}
+.sendbox{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:22px}
+.sendbox .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.sendbox .btns .btn{flex:1 1 240px}
+.done-card{border:1px solid var(--green);background:var(--green-soft);border-radius:12px;padding:22px}
+.done-card h3{margin:0 0 6px;font-family:var(--serif);font-size:21px}
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:10px;padding:0 16px calc(110px + env(safe-area-inset-bottom,0px))}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);margin:0 -16px;padding:10px 16px 8px;border-bottom:1px solid var(--line)}
+  .mbar{display:flex;align-items:center;gap:10px}
+  .mbar .mt{flex:1;min-width:0}
+  .mbar .ms{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .mbar .mn{font-weight:600;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar button{font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;min-height:36px;cursor:pointer}
+  .rail ol{display:none;margin-top:10px;max-height:60vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px}
+  .rail.open ol{display:block}
+  .progress{margin:8px 0 0}.progress .ptxt{display:none}
+  .saved{display:none}
+  .sec-h{font-size:22px;margin-top:16px}
+  .nav.fix{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+  .nav.fix .r{flex:1}.nav.fix .r .btn{flex:1}
+  .nav.fix [data-go="prev"]{padding:10px 12px}
+  .hero{padding:22px 16px 12px}
+  .steps{margin-top:16px;gap:8px;grid-template-columns:1fr}
+  .steps li{padding:10px 12px 10px 46px;font-size:13.5px}
+  .steps li::before{left:12px;top:10px}
+  .top-in{padding:10px 16px}
+  .logo{height:54px}
+  .contact .addr{display:none}
+}
+@media (max-width:560px){.grid{grid-template-columns:1fr;gap:18px}.f.half{grid-column:1/-1}.card{padding:16px}.seg label{flex:1 1 calc(50% - 8px)}.rv td{display:block;width:auto!important;border-top:none;padding:4px 16px}.rv tr{display:block;border-top:1px solid var(--line);padding:6px 0}.rv tr.grp td{padding:8px 16px}}
+
+/* send + thank-you pages */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}.rise.d1{animation-delay:.12s}.rise.d2{animation-delay:.24s}
+.tick{width:56px;height:56px;flex:0 0 56px}
+.tick circle{fill:var(--green-soft);stroke:var(--green);stroke-width:2.5;stroke-dasharray:151;stroke-dashoffset:151;animation:draw .7s ease-out .1s forwards}
+.tick path{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:36;stroke-dashoffset:36;animation:draw .4s ease-out .7s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ready{display:flex;gap:16px;align-items:center;margin:4px 0 18px}
+.ready h2{font-family:var(--serif);font-size:25px;margin:0 0 4px;line-height:1.2}.ready p{margin:0;color:var(--muted)}
+.send-sum{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.sum-item{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;color:var(--muted);font-size:14px}
+.sum-item .n{font-family:var(--serif);font-size:28px;color:var(--accent);line-height:1.1}
+.route{border:1px solid var(--line);background:var(--surface);border-radius:12px;margin-bottom:12px}
+.route .rt{display:grid;grid-template-columns:80px 1fr;column-gap:12px;padding:12px 16px}
+.route .rt+.rt{border-top:1px solid var(--line)}
+.route .lb{grid-row:span 2;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.route .em{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.sendbox .btn svg{width:18px;height:18px;margin-right:8px;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.btn.shine{position:relative;overflow:hidden}
+.btn.shine::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);animation:shine 2.8s ease-in-out 1s infinite}
+.btn.shine:disabled::after{display:none}
+@keyframes shine{0%{left:-60%}45%,100%{left:130%}}
+.sendprog{height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:16px}
+.sendprog i{display:block;height:100%;width:35%;background:var(--green);border-radius:4px;animation:prog 1.2s ease-in-out infinite}
+@keyframes prog{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+.sendnote{margin:10px 0 0;color:var(--muted);font-size:14px;text-align:center}
+.sent-hero{text-align:center;padding:26px 8px 18px}
+.sent-hero .tick{width:84px;height:84px;margin:0 auto 14px;display:block}
+.sent-hero h2{font-family:var(--serif);font-size:30px;margin:0 0 6px}.sent-hero p{margin:0;color:var(--muted)}
+.sent-card{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:20px 22px}
+.sent-card h3{margin:0 0 12px;font-family:var(--serif);font-size:19px}
+.nxt{list-style:none;margin:0;padding:0;counter-reset:st}
+.nxt li{position:relative;padding:0 0 16px 44px;counter-increment:st}
+.nxt li:last-child{padding-bottom:0}
+.nxt li::before{content:counter(st);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green);border:1px solid var(--green);display:grid;place-items:center;font-weight:600;font-size:14px}
+.nxt li:not(:last-child)::after{content:"";position:absolute;left:14px;top:30px;bottom:2px;width:1px;background:var(--line)}
+.nxt li>b{display:block}.nxt span{color:var(--muted);font-size:14.5px}
+.help-line{text-align:center;color:var(--muted);margin:18px 0 0}.help-line a{color:var(--accent)}
+
+/* sending: bird + progress bar */
+.flight{margin-top:18px}
+.sky{position:relative;height:74px;margin:0 56px 0 0}
+.trail{position:absolute;left:0;top:40px;height:0;border-top:2px dashed var(--line);transition:width .15s linear}
+.bird{position:absolute;top:2px;width:68px;margin-left:-34px;transition:left .15s linear;animation:bob 1.1s ease-in-out infinite}
+.bird svg{display:block;width:68px;height:43px;overflow:visible}
+.wing{transform-box:view-box;transform-origin:30px 23px;animation:flap .32s ease-in-out infinite alternate}
+.wing.wf{animation-delay:-.06s}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.55)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.nest{position:absolute;right:-56px;top:14px;width:52px;text-align:center;color:var(--muted);font-size:11px;line-height:1.2}
+.nest svg{width:26px;height:26px;display:block;margin:0 auto 2px}
+.nest.got{color:var(--green)}
+.pbar{height:8px;border-radius:8px;background:var(--line);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#1F63A8,#4FAE4A 70%,#F2C230);transition:width .15s linear}
+.pmeta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:14px;color:var(--muted)}
+.pmeta #fpct{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.bird,.wing{animation:none!important}}
+canvas.fw{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+@media (max-width:480px){.ready{flex-direction:column;align-items:flex-start}.ready h2{font-size:22px}}
+@media (prefers-reduced-motion:reduce){.rise,.tick circle,.tick path,.btn.shine::after,.sendprog i{animation:none!important;stroke-dashoffset:0!important}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <img class="logo" alt="Upright Migration Consultants" src="data:image/png;base64,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">
+  <div class="contact"><span class="addr">Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000<br></span>03 9620 9100 · <a href="mailto:student@uprightmigration.com.au">student@uprightmigration.com.au</a></div>
+</div></header>
+
+<section class="hero">
+  <p class="eyebrow">Student visa · Subclass 500</p>
+  <h1 id="heroTitle">Your student visa questionnaire</h1>
+  <p>We'll take most of your details from the documents you give us, so this form only asks what your documents can't tell us. Questions appear only when they apply to you. Tap the green <b style="color:var(--green)">i</b> next to any question for a short explanation.</p>
+  <ol class="steps">
+    <li><strong>Answer the questions</strong>About 20 minutes. Have your family details, study and work dates, and travel dates handy.</li>
+    <li><strong>Review your answers</strong>Check everything on one page and fix anything before sending.</li>
+    <li><strong>Send to Upright</strong>One tap sends your answers to our team, and we email you a copy.</li>
+  </ol>
+  <div class="banner" id="banner" hidden></div>
+</section>
+
+<div class="shell">
+  <nav class="rail" aria-label="Questionnaire sections">
+    <div class="mbar"><div class="mt"><div class="ms" id="mstep"></div><div class="mn" id="mname"></div></div><button type="button" id="mtoggle" aria-expanded="false" aria-controls="railList">All steps</button></div>
+    <ol id="railList"></ol>
+    <div class="progress" id="progress"></div>
+    <div class="saved" id="saved"></div>
+  </nav>
+  <main class="main">
+    <form id="form" novalidate autocomplete="on"></form>
+  </main>
+</div>
+
+<script>/*__BOOT__*/</script>
+<script>
+(function(){
+"use strict";
+/* ================= configuration ================= */
+// Paste the Google Apps Script web app URL (ends in /exec) between the quotes.
+const API_URL="https://script.google.com/macros/s/AKfycbxZcyoM9PVZ8iaqSOBwZ8P8SFpjO8M0Vj8_R1lM3Lp8PCwuQFddzCx3y8D4KawS2Od1RQ/exec";
+const OFFICE_EMAIL="student@uprightmigration.com.au";
+const KEY="umc-500-questionnaire-v1";
+const MAX_UPLOAD=20*1024*1024;
+
+/* ================= helpers ================= */
+const YN=["Yes","No"];
+const eq=(k,v)=>(d,it)=>((it&&it[k]!==undefined)?it:d)[k]===v;
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const AU_STATES=["Australian Capital Territory","New South Wales","Northern Territory","Queensland","South Australia","Tasmania","Victoria","Western Australia"];
+const inAus=d=>d.loc!=="No";
+const tenYearsAgo=()=>{const t=new Date();t.setFullYear(t.getFullYear()-10);return t;};
+const fmtDate=v=>{if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v))return v||"";const[a,b,c]=v.split("-");return `${c}/${b}/${a}`;};
+const todayISO=()=>{const t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");};
+
+const LANGS=["Punjabi","Hindi","Gujarati","Nepali","Urdu","Bengali","Tamil","Telugu","Malayalam","Marathi","Sinhalese","Mandarin","Cantonese","Vietnamese","Filipino (Tagalog)","Indonesian","Thai","Korean","Spanish","Portuguese","Arabic","English","Other"];
+const ageOn=(dob)=>{if(!dob)return 99;const b=new Date(dob),t=new Date();let a=t.getFullYear()-b.getFullYear();if(t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))a--;return a;};
+const isKid=it=>it&&/Son|Daughter/.test(it.relp||"");
+const isPartner=it=>it&&/Spouse|De facto/.test(it.relp||"");
+const famNames=d=>(hasFam(d)&&Array.isArray(d.inc)?d.inc.map(x=>x&&x.name).filter(Boolean):[]);
+const ieq=(k,v)=>(d,it)=>(it||{})[k]===v;
+const NO_FAM=["Never married","Engaged"];
+const famApplies=d=>!NO_FAM.includes(d.rel);
+const hasPartner=d=>d.rel==="Married"||d.rel==="De facto";
+const worked=d=>d.cur_emp==="Yes"||d.prev_emp==="Yes";
+const hasFam=d=>famApplies(d)&&d.fam_inc==="Yes";
+const KIDS=["Son","Daughter","Stepson","Stepdaughter"];
+const relpOpts=d=>(d.rel==="Married"?["Spouse (married)"]:d.rel==="De facto"?["De facto partner"]:[]).concat(KIDS);
+const partnerIn=d=>hasFam(d)&&(d.inc||[]).some(x=>x&&/Spouse|De facto/.test(x.relp||""));
+const partnerOut=d=>hasPartner(d)&&!!d.fam_inc&&!partnerIn(d);
+const pWord=d=>d.rel==="Married"?"spouse":"de facto partner";
+const famWho=d=>hasPartner(d)?"your partner or any child":"any of your children";
+const beenHere=d=>inAus(d)||d.first==="No";
+const COUNTRIES=["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Congo (Democratic Republic)", "Cook Islands", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, South", "Korea, North", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "São Tomé and Príncipe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
+const VISAS=["Student visa (subclass 500)","Student dependant (subclass 500)","Temporary Graduate visa (subclass 485)","Bridging visa","Visitor visa","Other"];
+
+/* ---------- OSHC ---------- */
+const OSHC_URL="https://agents.flywire.com/services/upright/oshc-au";
+const OSHC_PROVIDERS=["Worldcare","ahm","Bupa","Medibank"];
+const pad2=n=>String(n).padStart(2,"0");
+const isoOK=v=>/^(19|20|21)\d{2}-\d{2}-\d{2}$/.test(v||"");
+/* OSHC end date from the last course end date:
+   course ends 1 Jan – 31 Oct  -> 2 months after the course end date
+   course ends 1 Nov – 31 Dec  -> 15 March of the following year            */
+function oshcEnd(e){
+  if(!isoOK(e))return "";
+  const [y,m,d]=e.split("-").map(Number);
+  if(m>=11)return (y+1)+"-03-15";
+  let nm=m+2,ny=y;if(nm>12){nm-=12;ny++;}
+  const last=new Date(ny,nm,0).getDate();
+  return ny+"-"+pad2(nm)+"-"+pad2(Math.min(d,last));
+}
+function oshcPeople(d){
+  const inc=hasFam(d)&&Array.isArray(d.inc)?d.inc.filter(Boolean):[];
+  const adults=1+inc.filter(isPartner).length,kids=inc.filter(isKid).length;
+  const type=adults>1&&kids?"Family":adults>1?"Couple":kids?"Single parent":"Single";
+  return {adults,kids,type};
+}
+const hasOshc=d=>/^Yes/.test(d.oshc||"");
+const oshcShort=d=>hasOshc(d)&&isoOK(d.oshc_to)&&isoOK(d.c_end)&&d.oshc_to<oshcEnd(d.c_end);
+/* "Arrange my OSHC": one click emails the student team (through the Staff Hub). */
+function oshcAsk(d){
+  const lbl=/^No/.test(d.oshc||"")?"Arrange my OSHC":"Contact our team";
+  if(d.oshc_req)return `<p class="note">✓ Sent to our team on ${esc(d.oshc_req)}. We'll contact you about your OSHC and confirm the price before anything is paid.</p>`;
+  return `<button type="button" class="btn go" data-act="oshcreq">${lbl}</button>`;
+}
+const WORK_WARN="Important: student visa holders can work up to 48 hours a fortnight while their course is in session (unlimited during scheduled course breaks). Working more than this breaks visa condition 8105 and can lead to your visa being cancelled.";
+const FUND_WARN="Important: you must have enough money for your course fees, living costs and travel for the whole stay. If you can't show this, your visa may be refused. Please call us on 03 9620 9100 before we lodge.";
+const tripCountries=d=>{const a=[];(d.trav==="Yes"&&Array.isArray(d.trips)?d.trips:[]).forEach(t=>{const c=t&&String(t.country||"").trim();if(c&&!a.includes(c))a.push(c);});return a.join(", ");};
+/* Warnings the client was shown. They go to the office in one email when the form is sent (Code of Conduct record). */
+function qWarnings(){const w=[],d=data;
+  if(d.fund_ok==="No")w.push(["Not enough money",FUND_WARN]);
+  if(inAus(d)&&(d.cur_jobs||[]).some(j=>j&&j.hours==="Full-time"))w.push(["Full-time work on a student visa",WORK_WARN]);
+  if(oshcShort(d))w.push(["OSHC does not cover the whole visa","Your OSHC ends on "+fmtDate(d.oshc_to)+". You need OSHC until "+fmtDate(oshcEnd(d.c_end))+"."]);
+  if(/^No/.test(d.oshc||""))w.push(["No OSHC yet","You need OSHC for the whole visa"+(isoOK(d.c_end)?", until "+fmtDate(oshcEnd(d.c_end)):"")+", before we can lodge."]);
+  return w;}
+
+const FORM_ID="500";
+/*QCOMMON-START*/
+/* Shared by the 485, 500, 600 and Employer client questionnaires. Edit build/qforms/common.js and run
+   python3 build/qforms.py: it copies this block into every form, so the rules stay the same everywhere. */
+const HUB_URL="https://script.google.com/macros/s/AKfycbwcF5ZOVAOZNKTQyKTvxB7vZCEMFYGXS7HEfAU59vsotZayAPkVjmUDgHzygd2WMeuRGw/exec";
+const CHK={};// path -> message for answers that are filled in but not right (dates in the wrong order, postcode, signature …)
+
+/* Health and character questions, as in ImmiAccount. Each is asked on its own, pre-set to the usual answer (No). */
+const Q_HEALTH=[
+ ["In the last 5 years, has anyone in this application lived in, or visited, any country outside their country of passport for more than 3 months in a row (not counting time in Australia)?","For example, a person with an Indian passport who lived in Dubai for 6 months in 2022 answers Yes. Time spent in Australia doesn't count."],
+ ["Does anyone intend to enter a hospital or health care facility (including nursing homes) while in Australia?","Answer Yes if a hospital stay or nursing home is planned. Normal visits to a GP or a clinic don't count."],
+ ["Does anyone intend to work as, or study or train to be, a health care worker, or work in a health care facility, while in Australia?","For example a nursing, medicine, dental or pathology course, or a job or placement in a hospital or clinic. Student nurses answer Yes."],
+ ["Does anyone intend to work, study or train in aged care or disability care while in Australia?","For example a Certificate III in Individual Support, or a job or placement in an aged care home or disability service."],
+ ["Does anyone intend to work or train at a child care centre (including preschools and creches) while in Australia?","For example an early childhood education course with placements, or a job at a child care centre."],
+ ["Has anyone ever had, or do they have now, tuberculosis (TB), or been in close contact with a family member who has active TB, or had a chest x-ray that showed something abnormal?","Answer Yes even if the TB was treated and cured. A normal chest x-ray is a No."],
+ ["During the stay in Australia, does anyone expect to need medical treatment or follow-up for: a blood disorder, cancer, heart disease, hepatitis B or C or liver disease, HIV, kidney disease (including dialysis), mental illness, pregnancy, a respiratory disease that needed hospital admission or oxygen, or any other condition?","For example, a pregnancy, or regular check-ups for a heart condition. Everyday medicine for a minor condition is usually a No – if you're not sure, answer Yes and explain."],
+ ["Does anyone need help with mobility or care because of a medical condition, or need ongoing medical care, equipment or help from others for daily living?","For example a wheelchair, home nursing or help with daily tasks."]
+];
+const Q_CHAR=[
+ ["Has anyone ever been charged with any offence that is currently awaiting legal action?","A charge that hasn't been decided in court yet, in any country. For example a pending case for a driving offence."],
+ ["Has anyone ever been convicted of an offence in any country (including any conviction that has since been removed from official records)?","Include driving offences such as drink driving, even if it was a fine only or the record was later cleared."],
+ ["Has anyone ever been charged with, or convicted of, an offence involving family violence or domestic violence?","Include any charge or conviction for violence, threats or abuse towards a partner or family member, in any country, even if it was dropped."],
+ ["Has anyone ever been the subject of a domestic violence or family violence order, or any other order of a tribunal or court for the personal protection of another person?","For example an intervention order (IVO) or apprehended violence order (AVO) made against the person, even an interim one."],
+ ["Has anyone ever been the subject of an arrest warrant or Interpol notice?","An arrest warrant or Interpol notice in any country, even if it was later cancelled."],
+ ["Has anyone ever been found guilty of a sexually based offence involving a child (including where the person was discharged without a conviction)?","Answer for every person in the application, in any country."],
+ ["Has anyone ever been named on a sex offender register?","A sex offender register in any country."],
+ ["Has anyone ever been acquitted of any offence on the grounds of unsoundness of mind or insanity?","This means a court found the person not guilty because of their mental state at the time."],
+ ["Has anyone ever been found by a court not fit to plead?","This means a court decided the person couldn't take part in their own trial."],
+ ["Has anyone ever been directly or indirectly involved in, or associated with, activities that would represent a risk to the Australian community or the Australian Government?","For example spying, sabotage or supporting a group that plans attacks."],
+ ["Has anyone ever been charged with or indicted for genocide, war crimes, crimes against humanity, torture, slavery, or any other crime of serious international concern?","Serious international crimes such as war crimes or torture."],
+ ["Has anyone been associated with a person, group or organisation that has been or is involved in criminal conduct?","For example being a member of a gang or knowingly working for a criminal group."],
+ ["Has anyone been associated with an organisation engaged in violence or acts of violence (including war, insurgency, freedom fighting, terrorism, protest) either in Australia or overseas?","For example a member of an armed group, or a protest group that used violence."],
+ ["Has anyone ever served in a military force, police force, state-sponsored or private militia, or intelligence agency (including secret police)?","Include compulsory national service and police service. Answer Yes and give the dates and unit."],
+ ["Has anyone ever undergone any military or paramilitary training, been trained in weapons or explosives, or in the manufacture of chemical or biological products?","For example army training, NCC with weapons training, or a weapons licence course."],
+ ["Has anyone ever been involved in people smuggling or people trafficking offences?","Helping anyone enter a country illegally, or forcing anyone to work or travel."],
+ ["Has anyone ever been removed, deported or excluded from any country (including Australia)?","For example being sent back at an airport, or deported after a visa was cancelled."],
+ ["Has anyone ever overstayed a visa in any country (including Australia)?","Staying even one day after a visa ended, in any country."],
+ ["Does anyone have outstanding debts to the Australian Government or any public authority in Australia?","For example unpaid Centrelink debts, unpaid fines or unpaid hospital bills in Australia. A HECS/HELP loan doesn't count."]
+];
+/* One radio per question (pre-set to No), a details box when any is Yes, and a "read every question" tick at the bottom. */
+function hcFields(kind,who){
+  const list=kind==="h"?Q_HEALTH:Q_CHAR,any=d=>list.some((_,i)=>d[kind+"_"+(i+1)]==="Yes");
+  const out=list.map((q,i)=>({k:kind+"_"+(i+1),t:"radio",l:(i+1)+". "+q[0],req:1,opts:YN,def:"No",i:q[1]+" We've put the usual answer, No. Change it to Yes if it applies to "+(who||"you or anyone in your application")+"."}));
+  out.push({k:kind+"_det",t:"textarea",l:"For each Yes: the question number, who it applies to, and the details",req:1,show:any,i:kind==="h"?"For example “Question 3 – me – nursing placement at the Royal Melbourne Hospital from March 2027”. Include dates and any treatment.":"For example “Question 2 – me – fined for speeding, Delhi, May 2019”. Include the offence, the date, the country and the outcome. Our team will talk to you before lodging."});
+  out.push({k:kind+"_read",t:"confirm",l:"Before you continue",req:1,stmts:[],box:"I have read every question on this page",i:"Please read each question before you tick. Your answers are part of a legal declaration to the Department of Home Affairs."});
+  return out;
+}
+/* Keeps the old one-line answer (h_any / c_any) that the office scripts and staff already use. */
+function hcDerive(d){["h","c"].forEach(kind=>{const list=kind==="h"?Q_HEALTH:Q_CHAR;if(!(kind+"_1" in d))return;d[kind+"_any"]=list.some((_,i)=>d[kind+"_"+(i+1)]==="Yes")?"Yes":"No";});}
+
+/* ---- answer checks: each returns a message when an answer is filled in but can't be right ---- */
+const todayStr=()=>{const t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");};
+const chkAfter=(fromKey,msg)=>(v,d,it)=>{const f=(it||d)[fromKey];return f&&v&&/^\d{4}-\d{2}-\d{2}$/.test(f)&&v<f?(msg||"This date can't be before the start date."):"";};
+const chkPast=(v)=>v>todayStr()?"This date can't be in the future.":"";
+const chkBoth=(...fs)=>(v,d,it)=>{for(const f of fs){const m=f(v,d,it);if(m)return m;}return "";};
+/* Postcode follows the country: Australia 4 digits, India 6-digit PIN code. */
+function chkPost(countryOf){return (v,d,it)=>{const c=String(countryOf(d,it)||"").trim().toLowerCase(),s=String(v).replace(/\s/g,"");
+  if(c==="australia"&&!/^\d{4}$/.test(s))return "Australian postcodes have 4 digits, for example 3000.";
+  if(c==="india"&&!/^\d{6}$/.test(s))return "Indian PIN codes have 6 digits, for example 110001.";return "";};}
+const normName=s=>String(s||"").toLowerCase().replace(/[^a-zÀ-ɏ]+/g," ").trim().split(" ").filter(Boolean).sort().join(" ");
+const chkSig=nameOf=>(v,d)=>{const n=nameOf(d);return n&&normName(v)!==normName(n)?"Please type your name exactly as it is above: "+n:"";};
+const chkAbn=v=>/^\d{11}$/.test(String(v).replace(/\s/g,""))?"":"An ABN has exactly 11 digits, for example 12 345 678 901.";
+/* Name exactly as in the passport. One-name passports: the name goes in Family name and Given names stays empty. */
+function splitName(full){const p=String(full||"").trim().split(/\s+/).filter(Boolean);if(!p.length)return {fam:"",giv:""};if(p.length===1)return {fam:p[0],giv:""};return {fam:p[p.length-1],giv:p.slice(0,-1).join(" ")};}
+const joinName=(giv,fam)=>[giv,fam].map(x=>String(x||"").trim()).filter(Boolean).join(" ");
+
+/* ---- notes to the office through the Staff Hub (warnings at submit, "arrange my OSHC") ---- */
+function hubNotice(kind,payload){
+  const body=JSON.stringify({rpc:"qf.notice",payload:Object.assign({kind,form:FORM_ID,t:TOKEN},payload||{})});
+  return fetch(HUB_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body}).then(r=>r.json()).then(j=>{if(!j||!j.ok)throw new Error((j&&j.error&&j.error.message)||"not sent");return j.data;});
+}
+/* engine helpers: run the answer checks inside missing(), and show their message under the field */
+function chkRun(f,base,scope,out){
+  if(!f.chk)return false;const key=[...base,f.k].join("."),v=getPath([...base,f.k]);
+  const m=(v==null||v===""||(Array.isArray(v)&&!v.length))?"":f.chk(v,data,scope===data?undefined:scope);
+  if(m){CHK[key]=m;out.push(key);return true;}delete CHK[key];return false;
+}
+/*QCOMMON-END*/
+
+/* ================= questions =================
+   k key · t type · l label · i help text shown behind the green i · req required (or a function)
+   show(data,item) decides visibility · w:"half" puts two fields side by side · def default value */
+const SECTIONS=[
+{id:"you",title:"About you",intro:"Check the details we have for you and tell us where you are now.",fields:[
+ {k:"fam_n",t:"text",l:"Family name (surname)",req:1,w:"half",ac:"family-name",i:"Exactly as it is printed in your passport, for example SINGH. If your passport shows only one name, write it here and leave Given names empty."},
+ {k:"giv_n",t:"text",l:"Given names",w:"half",ac:"given-name",i:"Your first and middle names exactly as printed in your passport, for example GURPREET KAUR. Leave this empty if your passport shows only one name."},
+ {k:"email",t:"email",l:"Email address",req:1,w:"half",ac:"email",i:"Your personal email. It goes in your visa application, and we send your copy of this form here."},
+ {k:"mobile",t:"tel",l:"Mobile number",req:1,w:"half",ac:"tel",i:"Your mobile number, with the country code if it is not an Australian number."},
+ {k:"loc",t:"radio",l:"Are you in Australia right now?",req:1,opts:YN,i:"The application asks where you are on the day it is lodged. If you are travelling soon, tell us where you will be when we lodge."},
+ {k:"loc_country",t:"text",l:"Which country are you in?",req:1,w:"half",show:eq("loc","No"),i:"The country you are in now. The Department uses this to choose the office that handles your application."},
+ {k:"res_country",t:"select",opts:COUNTRIES,l:"Which country is your usual country of residence?",req:1,w:"half",def:"Australia",i:"The country you normally live in. We've put Australia because most of our students live here – change it if you live somewhere else."}
+]},
+{id:"home",title:"Your address",intro:"Where you live now. Start typing and choose your address from the list.",fields:[
+ {k:"a_street",t:"text",l:"Street address",req:1,ac:"street-address",geo:"home",i:"Start typing and choose your address from the list – we fill in the suburb, state and postcode for you. Add your unit number if it is missing. A PO Box can't be used as a home address."},
+ {k:"a_suburb",t:"text",l:"Suburb or town",req:1,w:"half",ac:"address-level2",i:"The suburb or town of your home address."},
+ {k:"a_state",t:"select",l:"State or territory",req:1,w:"half",opts:AU_STATES,show:inAus,i:"The Australian state or territory you live in now."},
+ {k:"a_state_os",t:"text",l:"State or province",w:"half",show:d=>!inAus(d),i:"The state, province or region, if your country uses them."},
+ {k:"a_country",t:"text",l:"Country",req:1,w:"half",show:d=>!inAus(d),i:"The country of your home address."},
+ {k:"a_post",t:"text",l:"Postcode",req:1,w:"half",im:"numeric",ac:"postal-code",chk:chkPost(d=>inAus(d)?"Australia":d.a_country),i:"The postcode of your home address. Australian postcodes have 4 digits (for example 3000); Indian PIN codes have 6 digits (for example 110001)."},
+ {k:"post_same",t:"radio",l:"Is your postal address the same as your home address?",req:1,opts:YN,i:"Choose No if you receive mail at a different address or a PO Box."},
+ {k:"post_addr",t:"textarea",l:"Postal address",req:1,show:eq("post_same","No"),geo:"full",i:"Start typing and choose from the list, or type the full postal address, including suburb, state and postcode."}
+]},
+{id:"course",title:"Your course",intro:"Your Confirmation of Enrolment (CoE) gives us the course, provider and dates. These questions cover what the CoE doesn't show.",fields:[
+ {k:"first",t:"radio",l:"Is this the first time you are applying for an Australian student visa?",req:1,opts:YN,i:"Answer No if you have ever applied for a student visa (subclass 500, 572, 573 and so on) before, even if it was refused or you are on one now."},
+ {k:"cont",t:"radio",l:"Is your new course a continuation of study or training you started outside Australia?",req:1,opts:YN,i:"For example, a twinning or articulation program where the first part was done in your home country. Most applicants answer No."},
+ {k:"closure",t:"radio",l:"Are you applying because your Australian college or university closed?",req:1,opts:YN,i:"Answer Yes only if your previous education provider shut down or stopped offering your course, and you have been moved to a new provider for that reason."},
+ {k:"funded",t:"radio",l:"Is your study paid for (partly or fully) by an Australian Government scholarship or training scheme?",req:1,opts:YN,i:"For example Australia Awards or a Commonwealth-funded scheme. Family support, bank loans and private scholarships are not included here – answer No for those."},
+ {k:"funded_det",t:"text",l:"Name of the scholarship or scheme",req:1,show:eq("funded","Yes"),i:"Write the name of the scholarship or scheme. Please upload the scholarship letter in the documents step."}
+]},
+{id:"personal",title:"Personal details",intro:"These questions are about you personally. Your passport doesn't show these answers.",fields:[
+ {k:"rel",t:"select",l:"Relationship status",req:1,w:"half",opts:["Never married","Engaged","Married","De facto","Separated","Divorced","Widowed"],i:"Choose your status today. ‘De facto’ means you live with a partner in a genuine relationship but are not married."},
+ {k:"on",t:"radio",l:"Have you ever been known by any other name?",req:1,opts:YN,i:"Include a name at birth, a previous married name, a nickname or alias, or a different spelling of your name used on any document."},
+ {k:"other_names",t:"repeat",item:"Other name",add:"Add another name",min:1,show:eq("on","Yes"),fields:[
+  {k:"fam",t:"text",l:"Family name (surname)",w:"half",i:"Optional. The family name as it was used. Leave blank if there was none."},
+  {k:"giv",t:"text",l:"Given names",w:"half",req:(d,it)=>!(it&&it.fam),i:"The given names as they were used."},
+  {k:"type",t:"select",l:"What kind of name is this?",req:1,w:"half",opts:["Name at birth","Previous married name","Alias or nickname","Other spelling","Other"],i:"This tells the Department why you used this name."}]},
+ {k:"cit",t:"radio",l:"Are you a citizen of any country other than the country of your passport?",req:1,opts:YN,i:"Answer Yes if you hold citizenship of a second country, even if you don't have a passport from that country."},
+ {k:"cit_list",t:"text",l:"Which other country or countries?",req:1,show:eq("cit","Yes"),i:"List every other country you are a citizen of."},
+ {k:"opp",t:"radio",l:"Do you have any other current passport or travel document?",req:1,opts:YN,i:"For example a second passport or a refugee travel document. Don't include your main passport or passports that have expired."},
+ {k:"opp_det",t:"text",l:"Which country and type of document?",req:1,show:eq("opp","Yes"),i:"For example “Nepal – passport”. Please upload a copy in the documents step, and we'll take the details from it."},
+ {k:"nid",t:"radio",l:"Do you have a national identity card from your home country? (e.g. Aadhaar card for Indian nationals)",req:1,opts:YN,def:"Yes",i:"For example an Aadhaar card (India), CNIC (Pakistan), NIC (Sri Lanka) or citizenship card (Nepal). If Yes, please upload a copy in the documents step. If No, we will explain that in the application."},
+ {k:"nid_name",t:"text",l:"Name of the national ID card",req:1,w:"half",show:eq("nid","Yes"),i:"For Indian citizens this is the Aadhaar card. The name of the card, for example Aadhaar, CNIC, NIC or Citizenship Certificate."},
+ {k:"nid_no",t:"text",l:"National ID number",req:1,w:"half",show:eq("nid","Yes"),i:"The ID number exactly as it appears on the card, including any spaces or dashes."},
+ {k:"oid",t:"radio",l:"Do you have any other identity documents?",req:1,opts:YN,i:"For example a birth certificate or a driver licence. Tick what you have and upload a copy in the documents step."},
+ {k:"oid_types",t:"checks",l:"Which ones?",req:1,show:eq("oid","Yes"),opts:["Birth certificate","Driver licence","Other"],i:"Tick every one you have."},
+ {k:"oid_other",t:"text",l:"What is the other identity document?",req:1,show:d=>d.oid==="Yes"&&(d.oid_types||[]).includes("Other"),i:"Write the name of the document."},
+ {k:"hx",t:"radio",l:"Have you had a health examination for an Australian visa in the last 12 months?",req:1,opts:YN,i:"A medical examination with a Bupa Medical Visa Services clinic or panel doctor for any Australian visa. Answer No if your last one was more than 12 months ago."},
+ {k:"hap",t:"text",l:"HAP ID, if you know it",w:"half",show:eq("hx","Yes"),i:"The 8-digit number on your health examination referral letter. Leave blank if you don't have it and we'll find it."}
+]},
+{id:"family",title:"Partner and children",show:famApplies,intro:"",introFn:d=>hasPartner(d)?"Your ‘family unit’ means your partner (married or de facto) and your dependent children. Their passports and marriage or birth certificates give us most details.":"Your ‘family unit’ includes your dependent children. Their passports and birth certificates give us most details.",fields:[
+ {k:"fam_inc",t:"radio",l:d=>hasPartner(d)?"Is your partner or any child included in this student visa application with you?":"Are any of your children included in this student visa application with you?",req:1,opts:YN,i:"Family members included in your application get a student dependant visa with the same end date as yours. Answer Yes if they are with you in Australia now as your dependant, or will come with you."},
+ {k:"inc",t:"repeat",item:"Family member included",add:"Add another family member",min:1,show:hasFam,fields:[
+  {k:"name",t:"text",l:"Full name",req:1,w:"half",i:"Their name as shown in their passport."},
+  {k:"relp",t:"select",l:"Relationship to you",req:1,w:"half",opts:relpOpts,i:"How this person is related to you."},
+  {k:"dob",t:"date",l:"Date of birth",req:1,w:"half",i:"Their date of birth."},
+  {k:"lang",t:"select",l:"Their main language",req:1,w:"half",opts:LANGS,i:"The language they speak most at home."},
+  {k:"on",t:"radio",l:"Have they ever been known by any other name?",req:1,opts:YN,i:"A name at birth, previous married name, alias or different spelling."},
+  {k:"on_det",t:"text",l:"Their other name(s) and why",req:1,show:ieq("on","Yes"),i:"For example “Kaur, Gurpreet – name at birth”."},
+  {k:"cit",t:"radio",l:"Are they a citizen of any other country (apart from their passport country)?",req:1,opts:YN,i:"Answer Yes if they hold citizenship of a second country."},
+  {k:"cit_det",t:"text",l:"Which country?",req:1,show:ieq("cit","Yes"),i:"The other country they are a citizen of."},
+  {k:"opp",t:"radio",l:"Do they have any other current passport?",req:1,opts:YN,i:"A second current passport or travel document. If Yes, please upload a copy."},
+  {k:"nid",t:"radio",l:"Do they have a national identity card? (e.g. Aadhaar card for Indian nationals)",req:1,opts:YN,i:"For example an Aadhaar card. If Yes, please upload a copy."},
+  {k:"nid_name",t:"text",l:"Name of their national ID card",req:1,w:"half",show:ieq("nid","Yes"),i:"For example Aadhaar, CNIC, NIC or Citizenship Certificate."},
+  {k:"nid_no",t:"text",l:"Their national ID number",req:1,w:"half",show:ieq("nid","Yes"),i:"The number exactly as it appears on the card."},
+  {k:"hx",t:"radio",l:"Have they had a health examination for an Australian visa in the last 12 months?",req:1,opts:YN,i:"A medical examination with a Bupa or panel clinic for any Australian visa in the last 12 months."},
+  {k:"inaus",t:"radio",l:"Are they in Australia now?",req:1,opts:YN,i:"Tell us whether this person is in Australia today."},
+  {k:"visa",t:"select",l:"What visa do they hold now?",req:1,w:"half",opts:VISAS,show:ieq("inaus","Yes"),i:"The visa they hold today. You can check it in VEVO or on their visa grant notice."},
+  {k:"ref",t:"radio",l:"Have they ever had a visa application refused, or a visa cancelled, while they were in Australia?",req:1,opts:YN,show:ieq("inaus","Yes"),i:"If their visa was refused in Australia and they now hold a bridging visa connected to that refused application, they may not be able to be included in this application. Answer Yes even if they have appealed, so we can check."},
+  {k:"ref_det",t:"textarea",l:"Which visa was refused or cancelled, when, and what has happened since (for example an appeal to the tribunal)?",req:1,show:(d,x)=>!!x&&x.inaus==="Yes"&&x.ref==="Yes",i:"Include the visa type, the date of the decision, and whether a review was lodged."},
+  {k:"_ref",t:"note",warn:1,show:(d,x)=>!!x&&x.inaus==="Yes"&&(x.ref==="Yes"||x.visa==="Bridging visa"),l:"Important: if this person's visa was refused in Australia and they hold a bridging visa related to that refused application, they may not be eligible to be included in your student visa application. Our team will check this with you before lodging."},
+  {k:"custody",t:"radio",l:"Does anyone who is NOT coming to Australia (for example the other parent) have custody or access rights for this child?",req:1,opts:YN,show:(d,it)=>isKid(it)&&ageOn(it.dob)<18,i:"For children under 18. If Yes, the Department usually needs Form 1229 (consent to grant a visa to a child) signed by that person."},
+  {k:"custody_det",t:"text",l:"Who, and what rights do they have?",req:1,show:(d,it)=>isKid(it)&&ageOn(it.dob)<18&&it.custody==="Yes",i:"Their name and relationship to the child, for example “Father – shared custody”."}]},
+ {k:"_np_sub",t:"sub",l:d=>"Your "+pWord(d)+" (not included in this application)",show:partnerOut},
+ {k:"_np_note",t:"note",show:partnerOut,l:d=>"Even though your "+pWord(d)+" is not included in this application, the Department must be told about them. Please give their details below."},
+ {k:"np_fam",t:"text",l:"Family name",w:"half",show:partnerOut,i:"Optional. Their family name (surname), as shown in their passport. Leave blank if they don't have one."},
+ {k:"np_giv",t:"text",l:"Given names",req:1,w:"half",show:partnerOut,i:"Their first and middle names, as shown in their passport."},
+ {k:"np_sex",t:"select",l:"Sex",req:1,w:"half",opts:["Female","Male","Other"],show:partnerOut,i:"As shown in their passport."},
+ {k:"np_dob",t:"date",l:"Date of birth",req:1,w:"half",show:partnerOut,i:"Their date of birth."},
+ {k:"np_cob",t:"text",l:"Country of birth",req:1,w:"half",show:partnerOut,i:"The country where they were born, for example India. We may have filled this in from your documents – please check it."},
+ {k:"np_citz",t:"text",l:"Citizenship",req:1,w:"half",show:partnerOut,i:"The country they are a citizen of."},
+ {k:"np_lives",t:"text",l:"Country where they live now",req:1,w:"half",show:partnerOut,i:"The country they live in today."},
+ {k:"np_why",t:"textarea",l:"Why is your partner not included in this application?",show:partnerOut,i:"Optional. For example “staying in India to work” or “will apply separately later”. This helps us explain the application correctly."},
+ {k:"fam_non",t:"radio",l:"Do you have any children who are NOT included in this application?",req:1,opts:YN,i:"Include every child of yours or your partner's, of any age, who is not applying with you. The Department must be told about them even if they are not coming to Australia."},
+ {k:"non",t:"repeat",item:"Child not included",add:"Add another child",min:1,show:d=>famApplies(d)&&d.fam_non==="Yes",fields:[
+  {k:"fam",t:"text",l:"Family name",w:"half",i:"Optional. Their family name (surname), if they have one."},
+  {k:"giv",t:"text",l:"Given names",req:1,w:"half",i:"Their given names."},
+  {k:"relp",t:"select",l:"Relationship to you",req:1,w:"half",opts:KIDS,i:"How this person is related to you."},
+  {k:"sex",t:"select",l:"Sex",req:1,w:"half",opts:["Female","Male","Other"],i:"As shown in their passport or birth certificate."},
+  {k:"dob",t:"date",l:"Date of birth",req:1,w:"half",i:"Their date of birth."},
+  {k:"cob",t:"text",l:"Country of birth",req:1,w:"half",i:"The country where they were born, for example India. We may have filled this in from your documents – please check it."},
+  {k:"citz",t:"text",l:"Citizenship",req:1,w:"half",i:"The country they are a citizen of, for example India."},
+  {k:"lives",t:"text",l:"Country where they live now",req:1,w:"half",i:"The country they live in today."}]}
+]},
+{id:"relatives",title:"Parents and siblings",intro:"The application asks for your parents and brothers and sisters, whether they live in Australia or overseas.",fields:[
+ {k:"rel_any",t:"radio",l:"Do you have any living parents, step-parents, brothers or sisters?",req:1,opts:YN,i:"Include step-parents and half or step brothers and sisters. Don't include your partner, children or in-laws."},
+ {k:"rels",t:"repeat",item:"Family member",add:"Add another parent or sibling",min:1,show:eq("rel_any","Yes"),fields:[
+  {k:"relp",t:"select",l:"Relationship to you",req:1,w:"half",opts:["Father","Mother","Step-father","Step-mother","Brother","Sister","Step-brother","Step-sister","Half-brother","Half-sister"],i:"How this person is related to you."},
+  {k:"fam",t:"text",l:"Family name",w:"half",i:"Optional. Their family name (surname), for example Singh or Kaur. Leave blank if they don't have one."},
+  {k:"giv",t:"text",l:"Given names",req:1,w:"half",i:"Their first and middle names."},
+  {k:"sex",t:"select",l:"Sex",req:1,w:"half",opts:["Female","Male","Other"],i:"The application asks for each parent's and sibling's sex."},
+  {k:"dob",t:"date",l:"Date of birth",req:1,w:"half",chk:chkPast,i:"Their exact date of birth, for example from their passport or Aadhaar card. If you really don't know it, call us."},
+  {k:"lives",t:"text",l:"Country they usually live in",req:1,w:"half",i:"For example India or Australia."}]}
+]},
+{id:"study",title:"Study history",intro:"Tell us about your studies outside Australia and any study you have done in Australia before.",fields:[
+ {k:"os_study",t:"radio",l:"Have you completed, or are you currently enrolled in, any other studies or training outside Australia?",req:1,opts:YN,i:"Include diplomas, degrees, nursing and other courses, including courses you did not finish. School up to Year 12 is not included here – please upload your Year 10 and Year 12 certificates in the documents step."},
+ {k:"os",t:"repeat",item:"Course outside Australia",add:"Add another course",min:1,show:eq("os_study","Yes"),fields:[
+  {k:"course",t:"text",l:"Course name",req:1,w:"half",i:"For example Bachelor of Commerce or GNM Nursing."},
+  {k:"inst",t:"text",l:"College or university",req:1,w:"half",i:"The name of the institution."},
+  {k:"country",t:"text",l:"Country",req:1,w:"half",i:"The country where you studied."},
+  {k:"status",t:"select",l:"Did you finish it?",req:1,w:"half",opts:["Completed","Did not finish","Still enrolled"],i:"Choose ‘Did not finish’ if you left or stopped the course."},
+  {k:"from",t:"date",l:"Start date",req:1,w:"half",chk:chkPast,i:"The exact start date from your certificate or transcript."},
+  {k:"to",t:"date",l:"End date",req:1,w:"half",chk:chkAfter("from","The end date can't be before the start date."),i:"The exact date you finished or left."}]},
+ {k:"au_study",t:"radio",l:"Have you previously studied in Australia?",req:1,opts:YN,i:"Include every course you have studied in Australia on any visa, including English courses and courses you did not finish. Don't include the new course you are applying for now."},
+ {k:"au_start",t:"radio",l:"Did you ever start a course in Australia, even if you didn't complete it?",opts:YN,show:d=>d.first==="No"&&d.au_study==="No",i:"Optional. You told us this isn't your first student visa. If you started any course here – even for a few weeks – please tell us. Example: “Enrolled in a Diploma of IT in 2022 but left after one term.”"},
+ {k:"au_start_det",t:"textarea",l:"What happened?",show:d=>d.first==="No"&&d.au_study==="No"&&d.au_start==="Yes",i:"Optional. The course, the college, when you started and why you stopped. A few words is enough."},
+ {k:"aus",t:"repeat",item:"Course in Australia",add:"Add another Australian course",min:1,show:eq("au_study","Yes"),fields:[
+  {k:"qual",t:"select",l:"Qualification",req:1,w:"half",opts:["Senior Secondary Certificate of Education (Year 12)", "Certificate I", "Certificate II", "Certificate III", "Certificate IV", "Diploma", "Advanced Diploma", "Associate Degree", "Bachelor Degree", "Bachelor Honours Degree", "Graduate Certificate", "Graduate Diploma", "Masters Degree (Coursework)", "Masters Degree (Research)", "Masters Degree (Extended)", "Doctoral Degree", "English language course (ELICOS)", "Non-award course", "Other"],i:"The level of the course, as shown on your CoE or certificate. For example Diploma or Bachelor Degree."},
+  {k:"cat",t:"select",l:"Category of study",req:1,w:"half",opts:["Independent ELICOS (English language)", "Schools", "Vocational Education and Training (VET)", "Higher Education", "Postgraduate Research", "Non-Award", "Foreign Affairs or Defence"],i:"The education sector of the course. English courses are ELICOS, diplomas and certificates are usually VET, and university degrees are Higher Education. Your CoE shows the sector."},
+  {k:"field",t:"select",l:"Field of study",req:1,w:"half",opts:["Natural and Physical Sciences", "Information Technology", "Engineering and Related Technologies", "Architecture and Building", "Agriculture, Environmental and Related Studies", "Health", "Education", "Management and Commerce", "Society and Culture", "Creative Arts", "Food, Hospitality and Personal Services", "Mixed Field Programmes"],i:"The broad subject area. For example nursing is Health, accounting is Management and Commerce, and commercial cookery is Food, Hospitality and Personal Services."},
+  {k:"course",t:"text",l:"Course name",req:1,w:"half",i:"The full course name, for example Diploma of Leadership and Management."},
+  {k:"inst",t:"text",l:"Institution name",req:1,w:"half",i:"The college or university, as shown on your CoE."},
+  {k:"campus",t:"text",l:"Campus",req:1,w:"half",i:"The campus you studied at, for example Melbourne CBD or Sydney."},
+  {k:"cpost",t:"text",l:"Postcode of campus",req:1,w:"half",im:"numeric",chk:chkPost(()=>"Australia"),i:"The 4-digit postcode of that campus, for example 3000 for Melbourne CBD."},
+  {k:"from",t:"date",l:"Date from",req:1,w:"half",i:"The date you started this course."},
+  {k:"to",t:"date",l:"Date to",req:1,w:"half",chk:chkAfter("from","The end date can't be before the start date."),i:"The date you finished or left the course, or the planned end date if you are still studying it."}]}
+]},
+{id:"work",title:"Work history",intro:"The Department asks about all work and any time without work since you left school. Payslips and job letters give us some details; we need the rest from you.",fields:[
+ {k:"cur_emp",t:"radio",l:"Are you currently working?",req:1,opts:YN,i:"Include full-time, part-time and casual work, self-employment, family business and internships, in Australia or any other country."},
+ {k:"cur_jobs",t:"repeat",item:"Current job",add:"Add another current job",min:1,show:eq("cur_emp","Yes"),fields:[
+  {k:"employer",t:"text",l:"Employer or business name",req:1,w:"half",i:"The name of the organisation you work for now."},
+  {k:"role",t:"text",l:"Your job title",req:1,w:"half",i:"For example Kitchen Hand or Support Worker."},
+  {k:"from",t:"date",l:"Start date",req:1,w:"half",chk:chkPast,i:"The exact date you started this job, from your job letter or first payslip."},
+  {k:"hours",t:"select",l:"Type of work",req:1,w:"half",opts:["Full-time","Part-time","Casual","Self-employed"],i:"How you are employed in this job."},
+  {k:"_hours",t:"note",warn:1,show:(d,it)=>inAus(d)&&!!it&&it.hours==="Full-time",l:WORK_WARN},
+  {k:"addr",t:"text",l:"Workplace address",req:1,geo:"full",i:"Start typing and choose the address from the list, or type the street address, suburb, state, postcode and country. A PO Box can't be used."},
+  {k:"cp",t:"text",l:"Contact person name at the workplace",req:1,w:"half",i:"The name of your manager or supervisor, who could confirm your employment."},
+  {k:"cp_ph",t:"tel",l:"Contact person's phone number",req:1,w:"half",i:"A phone number for that person or the workplace."}]},
+ {k:"prev_emp",t:"radio",l:d=>d.cur_emp==="Yes"?"Apart from your current job, have you had any previous jobs since leaving school, in any country?":"Have you worked since leaving school, in any country?",req:1,opts:YN,show:d=>!!d.cur_emp,i:"Include paid work, self-employment, family business, internships, unpaid work and volunteering. Part-time and casual jobs count."},
+ {k:"jobs",t:"repeat",item:"Previous job",add:"Add another previous job",min:1,show:eq("prev_emp","Yes"),fields:[
+  {k:"employer",t:"text",l:"Employer or business name",req:1,w:"half",i:"The name of the organisation you worked for."},
+  {k:"role",t:"text",l:"Your job title",req:1,w:"half",i:"For example Enrolled Nurse or Kitchen Hand."},
+  {k:"from",t:"date",l:"Start date",req:1,w:"half",chk:chkPast,i:"The exact start date from your job letter or payslips."},
+  {k:"to",t:"date",l:"End date",req:1,w:"half",chk:chkAfter("from","The end date can't be before the start date."),i:"The exact date you left."},
+  {k:"addr",t:"text",l:"Workplace address",req:1,geo:"full",i:"Start typing and choose the address from the list, or type the street address, suburb, state, postcode and country. A PO Box can't be used."},
+  {k:"cp",t:"text",l:"Contact person name at the workplace",req:1,w:"half",i:"The name of your manager or supervisor, who could confirm your employment."},
+  {k:"cp_ph",t:"tel",l:"Contact person's phone number",req:1,w:"half",i:"A phone number for that person or the workplace."}]},
+ {k:"unemp",t:"radio",l:"Since leaving school, were there periods of about 2 months or more when you were not working or studying?",req:1,opts:YN,show:worked,i:"The Department asks about gaps too, for example time unemployed, looking for work or caring for family."},
+ {k:"gaps",t:"repeat",item:"Period not working or studying",add:"Add another period",min:1,show:d=>worked(d)&&d.unemp==="Yes",fields:[
+  {k:"from",t:"date",l:"Start date",req:1,w:"half",chk:chkPast,i:"The exact date this period started."},
+  {k:"to",t:"date",l:"End date",req:1,w:"half",chk:chkAfter("from","The end date can't be before the start date."),i:"The exact date this period ended."},
+  {k:"what",t:"select",l:"What were you doing?",req:1,w:"half",opts:["Unemployed","Looking for work","Caring for family","Preparing for an English test or studies","Travelling","Health or personal reasons","Home duties","Other"],i:"Choose the option that best describes this period."},
+  {k:"what_det",t:"text",l:"Details",req:(d,it)=>!!it&&it.what==="Other",w:"half",i:"Optional unless you chose Other. A few words is enough."}]},
+ {k:"offer",t:"radio",l:"Have you been offered a job for when you finish this course?",req:1,opts:YN,i:"Answer Yes only if you have a written or confirmed job offer."},
+ {k:"offer_det",t:"textarea",l:"Tell us about the job offer",req:1,show:eq("offer","Yes"),i:"Employer, job title, country and when it starts. Please upload the offer letter if you have one."}
+]},
+{id:"money",title:"Money",intro:"How you will pay for your course and your stay in Australia.",fields:[
+ {k:"fund_ok",t:"radio",l:"Do you (and anyone included in this application) have enough money for tuition, living costs and travel for the whole stay?",req:1,opts:YN,i:"The application asks every applicant to confirm this. The Department may ask for bank statements or other evidence later."},
+ {k:"_fund",t:"note",warn:1,show:eq("fund_ok","No"),l:FUND_WARN},
+ {k:"fund_src",t:"checks",l:"Who will pay for your study and living costs?",req:1,opts:["My own savings or income","My parents","My partner","Other family members","Education loan","Scholarship","Other"],i:"Tick every source that applies."},
+ {k:"fund_det",t:"textarea",l:"Give details of who is supporting you (optional)",i:"Optional. Names and relationship of the people supporting you and what they do for work, or the bank and amount of any loan."}
+]},
+{id:"oshc",title:"Health insurance (OSHC)",intro:"Every student visa holder must have Overseas Student Health Cover (OSHC) for the whole visa.",fields:[
+ {k:"oshc",t:"select",l:"Do you have OSHC for your new visa?",req:1,opts:["Yes – it covers my whole new visa","Yes – but it ends before my new visa would end","No – I don't have OSHC yet"],i:"OSHC must cover your whole visa. If you're not sure how long your current cover lasts, choose ‘ends before’ and we'll check."},
+ {k:"oshc_ins",t:"select",l:"Insurer",req:1,w:"half",opts:OSHC_PROVIDERS.concat(["Allianz Care","nib","CBHS","Other"]),show:hasOshc,i:"The insurer on your OSHC certificate, for example Bupa. We may have filled this in from your certificate – please check it."},
+ {k:"oshc_pol",t:"text",l:"Policy number",w:"half",show:hasOshc,i:"Optional. The policy or membership number on your OSHC certificate."},
+ {k:"oshc_from",t:"date",l:"Cover starts",req:1,w:"half",show:hasOshc,i:"The start date on your OSHC certificate."},
+ {k:"oshc_to",t:"date",l:"Cover ends",req:1,w:"half",show:hasOshc,chk:chkAfter("oshc_from","The end date can't be before the start date."),i:"The end date on your OSHC certificate."},
+ {k:"oshc_prov",t:"radio",l:"Did your college or university arrange your current OSHC?",req:1,opts:YN,show:hasOshc,i:"Answer Yes if you paid for OSHC through your education provider. Answer No if you bought it yourself from the insurer or through an agent."},
+ {k:"oshc_fam",t:"select",l:"Are your family members covered by the same OSHC policy as you?",req:1,opts:["Yes – same policy (couple or family cover)","No – they have their own policy","Not sure"],show:d=>hasFam(d)&&hasOshc(d),i:"Couple and family OSHC policies cover everyone on one policy number. If they have a separate policy, please upload their certificate too."},
+ {k:"c_end",t:"date",l:"End date of your last course",req:1,w:"half",show:d=>!!d.oshc,i:"The course end date on your last CoE. If you have more than one CoE, use the one that finishes last. We may have filled this in from your CoE – please check it."},
+ {k:"_oshc_short",t:"note",warn:1,show:oshcShort,l:d=>"You need extra OSHC until "+fmtDate(oshcEnd(d.c_end))+". Your visa can't be granted without OSHC for the whole stay – press ‘Contact our team’ and we'll arrange it with you."},
+ {k:"_oshc_ask",t:"html",show:d=>/^No/.test(d.oshc||"")||/ends before/.test(d.oshc||"")||oshcShort(d),html:oshcAsk}
+]},
+{id:"english",title:"English",intro:"Your English test report gives us the test details. These questions cover the rest.",fields:[
+ {k:"lang",t:"select",l:"Your main language",req:1,w:"half",opts:LANGS,i:"The language you speak most at home."},
+ {k:"lang_other",t:"text",l:"Which language?",req:1,w:"half",show:eq("lang","Other"),i:"Write your main language."},
+ {k:"eng",t:"radio",l:"Have you taken an English test (PTE, IELTS, TOEFL, etc.) in the last 24 months?",req:1,opts:YN,i:"If Yes, please upload the score report. If you took more than one, upload them all and we'll use the highest."},
+ {k:"eng_test",t:"select",l:"Which test?",req:1,w:"half",show:eq("eng","Yes"),opts:["PTE Academic","IELTS Academic","IELTS General Training","TOEFL iBT","OET","Cambridge C1 Advanced","Other"],i:"The test on your score report. We may have filled this in from the report in your file – please check it."},
+ {k:"eng_date",t:"date",l:"Test date",req:1,w:"half",show:eq("eng","Yes"),chk:chkPast,i:"The date you sat the test, as shown on the score report."},
+ {k:"eng_score",t:"text",l:"Overall score",req:1,w:"half",show:eq("eng","Yes"),i:"Your overall score, for example 65 (PTE) or 6.5 (IELTS)."},
+ {k:"eng_ref",t:"text",l:"Test reference or TRF number",w:"half",show:eq("eng","Yes"),i:"Optional. The reference number on the score report, for example the PTE score report code or the IELTS TRF number."},
+ {k:"five",t:"radio",l:"Have you completed at least 5 years of study in English in Australia, Canada, New Zealand, South Africa, Ireland, the UK or the USA?",req:1,opts:YN,i:"Five years in total, at school or higher. Most applicants from India, Nepal and similar countries answer No."},
+ {k:"ssce",t:"radio",l:"In the last 2 years, did you complete Year 12 (a Senior Secondary Certificate) in Australia?",req:1,opts:YN,i:"Only Year 12 completed at an Australian school, taught in English."},
+ {k:"aqf",t:"radio",l:"In the last 2 years, have you completed at least half (50%) of a Certificate IV or higher course in Australia, while on a student visa?",req:1,opts:YN,i:"If you have, you don't need to show an English test for this visa. For example, you finished at least half of a Diploma of Nursing in Australia in the last 2 years."},
+ {k:"_aqf",t:"note",show:eq("aqf","Yes"),l:"Good news: you may not need an English test for this visa. We'll check your transcript to confirm."}
+]},
+{id:"travel",title:"Travel",intro:"The application asks about countries visited in the last 10 years by you and anyone included with you.",fields:[
+ {k:"arrived",t:"date",l:"When did you first arrive in Australia?",req:1,w:"half",show:beenHere,chk:chkPast,i:"The date of your first entry to Australia on any visa. We use this for your study history and travel history."},
+ {k:"fam_arr",t:"textarea",l:"When did each family member included in this application first arrive in Australia?",show:d=>hasFam(d)&&(d.inc||[]).some(x=>x&&x.inaus==="Yes"),i:"Name and approximate date for each, for example “Gurmel – 17 May 2019”."},
+ {k:"home_trips",t:"radio",l:"Since first arriving in Australia, have you travelled back to your home country?",req:1,opts:YN,show:beenHere,i:"Trips home count as travel for the application."},
+ {k:"home",t:"repeat",item:"Trip home",add:"Add another trip home",min:1,show:d=>beenHere(d)&&d.home_trips==="Yes",fields:[
+  {k:"country",t:"text",l:"Country visited",req:1,w:"half",i:"For example India."},
+  {k:"reason",t:"select",l:"Reason for the trip",req:1,w:"half",opts:["Visiting family","Holiday","Family event (wedding, funeral, etc.)","Medical","Study break","Other"],i:"The main reason for the trip."},
+  {k:"from",t:"date",l:"Date you left Australia",req:1,w:"half",chk:chkPast,i:"The exact date from your passport stamp or ticket."},
+  {k:"to",t:"date",l:"Date you returned to Australia",req:1,w:"half",chk:chkAfter("from","The return date can't be before the date you left."),i:"The exact date you came back, from your passport stamp or ticket."},
+  {k:"who",t:"checks",l:"Who travelled?",req:1,opts:d=>["Me"].concat(famNames(d)),i:"Tick everyone in this application who went on this trip."}]},
+ {k:"trav",t:"radio",l:"In the last 10 years, have you or anyone included in this application visited any other country (not your home country or Australia)?",req:1,opts:YN,i:"Include holidays, transit stays of a day or more, work, study and family visits – for example a trip to Dubai or Thailand."},
+ {k:"trips",t:"repeat",item:"Trip",add:"Add another trip",min:1,show:eq("trav","Yes"),fields:[
+  {k:"who",t:"checks",l:"Who travelled?",req:1,opts:d=>["Me"].concat(famNames(d)),i:"Tick everyone in this application who went on this trip."},
+  {k:"country",t:"text",l:"Country visited",req:1,w:"half",i:"The country you travelled to."},
+  {k:"reason",t:"select",l:"Reason for the trip",req:1,w:"half",opts:["Holiday","Visiting family or friends","Study","Work or business","Transit","Other"],i:"The main reason for the trip."},
+  {k:"from",t:"date",l:"Date arrived there",req:1,w:"half",chk:chkPast,i:"The exact date from your passport stamp or ticket."},
+  {k:"to",t:"date",l:"Date left",req:1,w:"half",chk:chkAfter("from","The date you left can't be before the date you arrived."),i:"The exact date you left that country."}]}
+]},
+{id:"visas",title:"Visa history",intro:"Your Australian visa grant letters give us your Australian visas. These questions cover everything else.",fields:[
+ {k:"v_other",t:"radio",l:"Apart from Australian visas, have you or anyone in this application held a visa for any other country?",req:1,opts:YN,i:"Include tourist, study and work visas, including visas for the trips you listed on the Travel page."},
+ {k:"v_other_det",t:"textarea",l:"Which country, type of visa and dates?",req:1,show:eq("v_other","Yes"),i:"For example “UAE – tourist visa – Feb 2023 – me and my husband”."},
+ {k:"v_trip",t:"textarea",l:d=>"You told us about a trip to "+tripCountries(d)+". Which visa did you travel on?",req:1,show:d=>d.v_other==="No"&&!!tripCountries(d),i:"Each trip outside Australia and your home country needs a visa or visa-free entry. Example: “New Zealand – visitor visa, March 2024” or “Thailand – visa on arrival”."},
+ {k:"v_refused",t:"radio",l:"Has anyone in this application ever had a visa refused or cancelled, for Australia or any other country?",req:1,opts:YN,i:"Include refused applications for any Australian visa, and refusals for countries like Canada, the UK or the USA. Please upload the refusal letter."},
+ {k:"v_refused_det",t:"textarea",l:"Give details of each refusal or cancellation",req:1,show:eq("v_refused","Yes"),i:"Who, which country, type of visa, the date and the reason given."},
+ {k:"v_comply",t:"radio",l:"Has anyone in this application ever broken a visa condition or stayed after their visa ended, in any country?",req:1,opts:YN,i:"For example working more hours than allowed, not meeting course attendance, or overstaying. Being honest here is important."},
+ {k:"v_comply_det",t:"textarea",l:"What happened?",req:1,show:eq("v_comply","Yes"),i:"Who, which country, the dates and what happened."}
+]},
+{id:"health",title:"Health declarations",intro:"Please read each question. They apply to you and everyone included in your application. We've put the usual answer – change any that apply.",fields:hcFields("h")},
+{id:"character",title:"Character declarations",intro:"Please read each question. They apply to you and everyone included in your application, in any country. We've put the usual answer – change any that apply.",fields:hcFields("c")},
+{id:"docs",title:"Upload documents",intro:"Optional. If you have your documents handy, you can upload them now and they will be sent with your answers.",fields:[
+ {k:"up_q",t:"radio",l:"Would you like to upload any documents now?",req:1,opts:YN,i:"Uploading is optional. You can also email your documents to student@uprightmigration.com.au with your name in the subject line."},
+ {k:"_up_no",t:"note",show:eq("up_q","No"),l:"No problem. Please email your documents to student@uprightmigration.com.au with your name in the subject line."},
+ {k:"_up",t:"upload",show:eq("up_q","Yes")}
+]},
+{id:"declare",title:"Declaration",intro:"Please read and confirm.",fields:[
+ {k:"decl",t:"confirm",l:"I confirm that",req:1,stmts:[
+  "The answers in this questionnaire are true, correct and complete.",
+  "I am applying as a genuine student, and my main reason for being in Australia is to study and complete my course.",
+  "I understand that a student visa is temporary and that I must follow its conditions, including the work limit and course attendance.",
+  "I have enough money and health insurance for my whole stay, and I will keep my OSHC in place while I hold the visa.",
+  "I will tell Upright Migration Consultants straight away if anything changes, including my address, course, relationship status or family.",
+  "I have read, or had explained to me, the Australian values statement, and I agree to respect Australian values.",
+  "I consent to Upright Migration Consultants using this information and my documents to prepare and lodge my student visa application, and to answer the application's declarations on my behalf based on what I have told them."],
+  box:"I have read and agree to all of the statements above",i:"Your visa application includes legal declarations. Giving false or misleading information is a serious offence and can lead to refusal or cancellation of your visa."},
+ {k:"sig",t:"text",l:"Type your full name as your signature",req:1,w:"half",chk:chkSig(d=>d.name),i:"Type your name exactly as you gave it on the first page, for example Gurpreet Kaur Singh. Typing your name here has the same effect as signing this questionnaire."}
+]}
+];
+
+const DOCS=[
+ {k:"passport",n:"Passport (photo page)"},
+ {k:"grant",n:"Current and previous Australian visa grant letters",show:beenHere},
+ {k:"coe",n:"Confirmation of Enrolment (CoE) for each course"},
+ {k:"oshc",n:"OSHC certificate",show:hasOshc},
+ {k:"english",n:"English test score report",show:eq("eng","Yes")},
+ {k:"school",n:"Year 10 and Year 12 certificates or marksheets"},
+ {k:"osq",n:"Qualifications from outside Australia",show:eq("os_study","Yes")},
+ {k:"auq",n:"Australian completion letters, certificates and transcripts",show:beenHere},
+ {k:"work",n:"Job letters or payslips",show:worked},
+ {k:"funds",n:"Bank statements, loan or scholarship letters"},
+ {k:"nid",n:"National identity card",show:eq("nid","Yes")},
+ {k:"oid",n:"Other identity documents",show:eq("oid","Yes")},
+ {k:"opp",n:"Other passport or travel document",show:eq("opp","Yes")},
+ {k:"hap",n:"Health examination letter (HAP ID)",show:eq("hx","Yes")},
+ {k:"family",n:"Family members' passports, visas and marriage or birth certificates",show:hasFam},
+ {k:"refusal",n:"Visa refusal or cancellation letters",show:eq("v_refused","Yes")},
+ {k:"other",n:"Other documents"}
+];
+
+function gapCheck(){return "";}
+
+function histIssues(){return "";}
+
+/* ================= mode + state ================= */
+const GAS=typeof google!=="undefined"&&!!(google.script&&google.script.run);
+const HAS_API=GAS||/^https:\/\/script\.google\.com\//.test(API_URL);
+const PREVIEW=/claude\.(ai|site)|claudeusercontent/i.test(location.hostname)&&!GAS;
+const qs=(()=>{try{return new URLSearchParams(location.search);}catch(e){return new URLSearchParams("");}})();
+const TOKEN=((window.__TOKEN||qs.get("t")||"")+"").replace(/[^A-Za-z0-9_-]/g,"").slice(0,64);
+let data={},meta={clientId:"",name:"",stream:""};
+try{const s=localStorage.getItem(KEY+(TOKEN?":"+TOKEN:""));if(s){const j=JSON.parse(s);data=j.data||{};}}catch(e){}
+let cur=0,view="form",touched=false,sendState="idle",sendMode="both",furthest=0,lastKey="";
+const files={};// docKey -> [File]
+const form=document.getElementById("form");
+
+/* device details for the Activity Log: IP address, session ID, browser (user agent) and time zone */
+const hex=n=>[...crypto.getRandomValues(new Uint8Array(n))].map(b=>b.toString(16).padStart(2,"0")).join("");
+const SID=(()=>{try{let v=sessionStorage.getItem("umc500-sid");if(!v){v=hex(16);sessionStorage.setItem("umc500-sid",v);}return v;}catch(e){return hex(16);}})();
+const TZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"";}catch(e){return "";}})();
+let IP="";
+const ipReady=fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(j=>{IP=String(j.ip||"");}).catch(()=>{});
+const dev=()=>({ip:IP,sid:SID,ua:navigator.userAgent||"",tz:TZ});
+function api(action,payload){
+  return Promise.race([ipReady,new Promise(r=>setTimeout(r,2500))]).then(()=>apiNow(action,payload));
+}
+function apiNow(action,payload){
+  const body=Object.assign({action,t:TOKEN,dev:dev()},payload||{});
+  if(GAS)return new Promise((res,rej)=>google.script.run.withSuccessHandler(r=>res(typeof r==="string"?JSON.parse(r):r)).withFailureHandler(e=>rej(new Error((e&&e.message)||"server error"))).api(JSON.stringify(body)));
+  if(!HAS_API)return Promise.reject(new Error("not connected"));
+  return fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)}).then(r=>r.json());
+}
+
+/* ================= visibility / missing ================= */
+function visibleSections(){return SECTIONS.filter(s=>!s.show||s.show(data));}
+function getPath(p){let o=data;for(const k of p){if(o==null)return undefined;o=o[k];}return o;}
+function setPath(p,v){let o=data;for(let i=0;i<p.length-1;i++){const k=p[i];if(o[k]==null)o[k]=typeof p[i+1]==="number"?[]:{};o=o[k];}o[p[p.length-1]]=v;}
+function isVis(f,scope){return !f.show||f.show(data,scope===data?undefined:scope);}
+function isEmpty(v){return v==null||v===""||(Array.isArray(v)&&v.length===0);}
+function ensureMin(f,base){const p=[...base,f.k];let a=getPath(p);if(!Array.isArray(a)){a=[];setPath(p,a);}while(a.length<(f.min||0))a.push({});return a;}
+function missing(fields,base){
+  let out=[];const scope=base.length?getPath(base):data;
+  for(const f of fields){
+    if(!isVis(f,scope))continue;
+    if(f.t==="repeat"){ensureMin(f,base).forEach((_,i)=>{out=out.concat(missing(f.fields,[...base,f.k,i]));});continue;}
+    if(chkRun(f,base,scope,out))continue;
+    if(!reqOf(f,scope))continue;
+    if(f.t==="gate"){if(f.test(data))out.push([...base,f.k].join("."));continue;}
+    const v=getPath([...base,f.k]);
+    if(f.t==="confirm"?v!==true:(isEmpty(v)||(f.t==="select"&&!optsOf(f).includes(v))))out.push([...base,f.k].join("."));
+  }
+  return out;
+}
+const reqOf=(f,scope)=>typeof f.req==="function"?!!f.req(data,scope===data?undefined:scope):!!f.req;
+const optsOf=f=>(typeof f.opts==="function"?f.opts(data):(f.opts||[]));
+
+/* ================= rendering ================= */
+const infoBtn=(id,f)=>f.i?`<button type="button" class="info" data-tip="${id}_tip" aria-expanded="false" aria-controls="${id}_tip" aria-label="What does this question mean?">i</button>`:"";
+const tipBox=(id,f)=>f.i?`<p class="tipbox" id="${id}_tip" hidden>${esc(f.i)}</p>`:"";
+function fieldHTML(f,base,scope,miss){
+  if(!isVis(f,scope))return "";
+  const p=[...base,f.k],id="f_"+p.join("_"),path=esc(JSON.stringify(p));
+  const ck=CHK[p.join(".")];
+  const cls="f"+(f.w==="half"?" half":"")+((touched&&miss.has(p.join(".")))||ck?" invalid":"");
+  const star=reqOf(f,scope)?'<span class="req" aria-hidden="true">*</span>':"";
+  const v=getPath(p);
+  const pv=meta.pdata?getIn(meta.pdata,p):undefined;const isPre=v!=null&&v!==""&&pv!=null&&String(pv)===String(v)&&typeof v!=="object";
+  const err=`<span class="err">${ck?esc(ck):f.t==="confirm"?"Please tick the box to confirm.":"Please answer this question."}</span>`;
+  const L=typeof f.l==="function"?f.l(data):f.l;
+  const pre=(!base.length&&["name","email","mobile"].includes(f.k)&&meta["pre_"+f.k]&&v===meta["pre_"+f.k])?" pre":"";
+  switch(f.t){
+    case "note":{const t=typeof f.l==="function"?f.l(data):f.l;return `<p class="note${f.warn?" warn":""}"${f.live?` id="live_${f.k}"`:""}${t?"":" hidden"}>${esc(t)}</p>`;}
+    case "upload":return uploadHTML();
+    case "sub":return `<h3 class="sub">${esc(L)}</h3>`;
+    case "list":return `<ol class="qlist">${f.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`;
+    case "html":return `<div class="f" data-html="${f.k}">${f.html(data)}</div>`;
+    case "gate":{const t=f.test(data);return (touched&&t)?`<p class="note warn" role="alert"><b>${esc(f.msg)}</b></p>`:"";}
+    case "textarea":return `<div class="${cls}"><label for="${id}">${esc(L)}${star}${infoBtn(id,f)}</label>${tipBox(id,f)}<textarea id="${id}"${isPre?' class="pre"':""} data-path="${path}"${f.geo?` data-geo="${f.geo}" autocomplete="off"`:""}>${esc(v)}</textarea>${err}</div>`;
+    case "select":return `<div class="${cls}"><label for="${id}">${esc(L)}${star}${infoBtn(id,f)}</label>${tipBox(id,f)}<select id="${id}"${isPre?' class="pre"':""} data-path="${path}" data-ctl="1"><option value="">Select…</option>${optsOf(f).map(o=>`<option${o===v?" selected":""}>${esc(o)}</option>`).join("")}</select>${err}</div>`;
+    case "radio":return `<div class="${cls}" role="radiogroup" aria-labelledby="${id}_l"><span class="lab" id="${id}_l">${esc(L)}${star}${infoBtn(id,f)}</span>${tipBox(id,f)}<div class="seg">${optsOf(f).map(o=>`<label${o===v?' class="on"':""}><input type="radio" name="${id}" value="${esc(o)}" data-path="${path}" data-ctl="1"${o===v?" checked":""}><span>${esc(o)}</span></label>`).join("")}</div>${err}</div>`;
+    case "checks":{const a=Array.isArray(v)?v:[];return `<div class="${cls}"><span class="lab">${esc(L)}${star}${infoBtn(id,f)}</span>${tipBox(id,f)}<div class="checks">${optsOf(f).map(o=>`<label${a.includes(o)?' class="on"':""}><input type="checkbox" value="${esc(o)}" data-path="${path}" data-ctl="1" data-multi="1"${a.includes(o)?" checked":""}><span>${esc(o)}</span></label>`).join("")}</div>${err}</div>`;}
+    case "confirm":return `<div class="${cls}"><span class="lab">${esc(L)}${infoBtn(id,f)}</span>${tipBox(id,f)}<ul class="stmts">${f.stmts.map(s=>`<li>${esc(s)}</li>`).join("")}</ul><div class="checks"><label${v===true?' class="on"':""}><input type="checkbox" id="${id}" data-path="${path}" data-ctl="1" data-bool="1"${v===true?" checked":""}><span><b>${esc(f.box)}</b>${star}</span></label></div>${err}</div>`;
+    case "repeat":{
+      const arr=ensureMin(f,base);
+      return `<div class="rep">${arr.map((it,i)=>{const ip=[...base,f.k,i];const rm=arr.length>(f.min||0)?`<button type="button" class="btn link" data-rm="${esc(JSON.stringify(ip))}">Remove</button>`:"";
+        return `<div class="card"><div class="card-h"><strong>${esc(f.item)} ${i+1}</strong>${rm}</div><div class="grid">${f.fields.map(sf=>fieldHTML(sf,ip,it,miss)).join("")}</div></div>`;}).join("")}<button type="button" class="btn add" data-add="${path}">+ ${esc(f.add)}</button></div>`;}
+    default:return `<div class="${cls}"><label for="${id}">${esc(L)}${star}${infoBtn(id,f)}</label>${tipBox(id,f)}<input id="${id}" class="${(pre||(isPre?" pre":"")).trim()}" type="${f.t}" data-path="${path}" value="${esc(v)}"${f.im?` inputmode="${f.im}"`:""}${f.geo?` data-geo="${f.geo}" autocomplete="off"`:(f.ac?` autocomplete="${f.ac}"`:"")}${f.t==="date"?` max="2100-12-31"`:""}>${err}</div>`;
+  }
+}
+function visibleDocs(){return DOCS.filter(x=>!x.show||x.show(data));}
+function uploadHTML(){
+  const tot=totalSize();
+  return `<div class="upl">${visibleDocs().map(x=>{const fl=files[x.k]||[];
+    return `<div class="urow"><div><div class="nm">${esc(x.n)}</div><div class="fl">${fl.length?fl.map((f,i)=>`<b>✓</b> ${esc(f.name)} <button type="button" class="btn link" data-unfile="${x.k}:${i}">Remove</button>`).join("<br>"):"No file added"}</div></div><div class="acts"><label class="btn pick">${fl.length?"Add more":"Choose file"}<input type="file" multiple data-doc="${x.k}" accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx"></label></div></div>`;}).join("")}
+  <p class="note">Files added: ${Object.values(files).reduce((a,l)=>a+l.length,0)} · ${(tot/1048576).toFixed(1)} MB of 20 MB. PDF or photos. Larger files can be emailed to <b>${OFFICE_EMAIL}</b> with your name in the subject line.</p></div>`;
+}
+function totalSize(){return Object.values(files).reduce((a,l)=>a+l.reduce((b,f)=>b+f.size,0),0);}
+
+/* the full name is built from the passport names; older saved answers only have "name" */
+function derive(){
+  if(data.fam_n===undefined&&data.giv_n===undefined&&data.name){const n=splitName(data.name);data.fam_n=n.fam;data.giv_n=n.giv;}
+  if(data.fam_n!==undefined||data.giv_n!==undefined)data.name=joinName(data.giv_n,data.fam_n);
+  hcDerive(data);
+}
+function render(focusPath){
+  derive();
+  const secs=visibleSections();if(cur>=secs.length)cur=secs.length-1;
+  renderRail(secs);
+  if(view==="review")return renderReview(secs);
+  if(view==="send")return renderSend(secs);
+  document.body.classList.toggle("started",cur>0||view!=="form"||furthest>0);
+  const s=secs[cur];const miss=new Set(missing(s.fields,[]));
+  const intro=s.introFn?s.introFn(data):s.intro;
+  setTimeout(()=>{lastKey=layoutKey();},0);
+  form.innerHTML=`<h2 class="sec-h">${esc(s.title)}</h2><p class="sec-intro">${esc(intro)}</p><div class="grid">${s.fields.map(f=>fieldHTML(f,[],data,miss)).join("")}</div>
+  <p class="status" id="status" role="status"></p>
+  <div class="nav fix"><button type="button" class="btn" data-go="prev"${cur===0?" hidden":""}>Back</button><div class="r"><button type="button" class="btn" data-act="saveform">Save form</button><button type="button" class="btn primary" data-go="next">${cur===secs.length-1?"Save and review your answers":"Save and continue"}</button></div></div>`;
+}
+function renderRail(secs){
+  let done=0;
+  document.getElementById("railList").innerHTML=secs.map((s,i)=>{const m=missing(s.fields,[]).length;if(!m&&i<=furthest)done++;
+    const mark=m?(touched||i<furthest?`<span class="miss">${m} to do</span>`:""):(i<=furthest?`<span class="tick" aria-label="complete">✓</span>`:"");
+    return `<li><button type="button" data-sec="${i}"${view==="form"&&i===cur?' aria-current="step"':""}>${esc(s.title)}${mark}</button></li>`;}).join("")+
+    `<li class="fin"><button type="button" data-view="review"${view!=="form"?' aria-current="step"':""}>Review and send</button></li>`;
+  const pct=Math.round(done/secs.length*100);
+  document.getElementById("progress").innerHTML=`<span class="ptxt">${done} of ${secs.length} sections complete</span><div class="bar"><i style="width:${pct}%"></i></div>`;
+  document.getElementById("mstep").textContent=view==="form"?`Step ${cur+1} of ${secs.length+1}`:"Last step";
+  document.getElementById("mname").textContent=view==="form"?secs[cur].title:(view==="review"?"Review your answers":"Send your Response Form");
+}
+
+/* ---------- review ---------- */
+function fmt(f,v){if(isEmpty(v))return "";if(f.t==="date")return fmtDate(v);if(f.t==="checks")return v.join(", ");if(f.t==="confirm")return v===true?"Confirmed":"";return String(v);}
+function rowsFor(fields,base,out){
+  const scope=base.length?getPath(base):data;
+  for(const f of fields){
+    if(!isVis(f,scope)||f.t==="note"||f.t==="upload"||f.t==="gate"||f.t==="list"||f.t==="html")continue;
+    if(f.t==="sub"){out.push({grp:typeof f.l==="function"?f.l(data):f.l});continue;}
+    if(f.t==="repeat"){ensureMin(f,base).forEach((it,i)=>{out.push({grp:f.item+" "+(i+1)});rowsFor(f.fields,[...base,f.k,i],out);});continue;}
+    out.push({q:f.t==="confirm"?"Declaration: "+f.box:(typeof f.l==="function"?f.l(data):f.l),a:fmt(f,getPath([...base,f.k])),req:reqOf(f,scope)});
+  }
+  return out;
+}
+function sectionRows(s){const out=rowsFor(s.fields,[],[]);if(s.id==="docs"){const l=[];visibleDocs().forEach(x=>(files[x.k]||[]).forEach(f=>l.push(x.n+": "+f.name)));out.push({q:"Documents uploaded with this form",a:l.length?l.join("\n"):"None – documents to be emailed separately"});}return out;}
+function renderReview(secs){
+  touched=true;
+  const total=secs.reduce((a,s)=>a+missing(s.fields,[]).length,0);
+  form.innerHTML=`<h2 class="sec-h">Review your answers</h2>
+  <p class="sec-intro">${total?`${total} required answer${total>1?"s are":" is"} still missing. Tap <b>Edit</b> on a section to finish it.`:"Please check everything carefully. Tap <b>Edit</b> to change anything."}</p>
+  ${secs.map((s,i)=>{const m=missing(s.fields,[]).length;const rows=sectionRows(s);
+    return `<div class="rv"><div class="rv-h"><b>${i+1}. ${esc(s.title)}</b><span>${m?`<span style="color:var(--flag);font-size:13.5px">${m} missing</span> `:""}<button type="button" class="btn link" style="color:var(--accent)" data-sec="${i}">Edit</button></span></div><table>${rows.map(r=>r.grp?`<tr class="grp"><td colspan="2">${esc(r.grp)}</td></tr>`:`<tr><td class="q">${esc(r.q)}</td><td>${r.a===""?`<span class="blank">${r.req?"Not answered":"–"}</span>`:esc(r.a).replace(/\n/g,"<br>")}</td></tr>`).join("")}</table></div>`;}).join("")}
+  <p class="status" id="status" role="status"></p>
+  <div class="nav fix"><button type="button" class="btn" data-sec="${secs.length-1}">Back</button><div class="r"><button type="button" class="btn" data-act="saveform">Save form</button><button type="button" class="btn primary" data-view="send"${total?" disabled":""}>Continue to send</button></div></div>`;
+}
+/* ---------- send ---------- */
+function renderSend(secs){
+  const total=secs.reduce((a,s)=>a+missing(s.fields,[]).length,0);
+  if(total){view="review";return renderReview(secs);}
+  const first=esc((data.name||"").split(" ")[0]);
+  const nDocs=Object.values(files).reduce((a,l)=>a+l.length,0);
+  const tick=`<svg class="tick" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>`;
+  if(sendState==="sent"){
+    form.innerHTML=`<div class="sent-hero rise">${tick}
+      <h2>Thank you${first?", "+first:""}!</h2>
+      <p>Your Response Form${nDocs?" and documents have":" has"} been sent to the Upright team.</p></div>
+    <div class="sent-card rise d1"><h3>What happens next</h3>
+      <ol class="nxt">
+        <li><b>Copy on its way</b><span>We've emailed a copy of your answers to <b>${esc(data.email)}</b>.</span></li>
+        <li><b>We review everything</b><span>Our team checks your answers against your documents and contacts you if anything else is needed.</span></li>
+        <li><b>Your visa application</b><span>We prepare your student visa application and let you know before we lodge it.</span></li>
+      </ol></div>
+    <p class="help-line rise d2">Questions? Call <a href="tel:0396209100">03 9620 9100</a> or email <a href="mailto:${OFFICE_EMAIL}">${OFFICE_EMAIL}</a>.</p>
+    <p class="status" id="status" role="status"></p>
+    <div class="nav rise d2"><button type="button" class="btn" data-act="pdf">Download a copy</button></div>`;return;}
+  const busy=sendState==="sending";
+  const plane=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 21 3l-7.5 18-2.6-7.4z"/><path d="M10.9 13.6 21 3"/></svg>`;
+  form.innerHTML=`<div class="ready rise">${tick}<div><h2>You're ready to send${first?", "+first:""}</h2>
+    <p>Every question is answered. Please send your Response Form to the Upright team.</p></div></div>
+  <div class="send-sum rise d1">
+    <div class="sum-item"><span class="n">${secs.length}</span><span>sections completed</span></div>
+    <div class="sum-item"><span class="n">${nDocs}</span><span>document${nDocs===1?"":"s"} attached</span></div>
+  </div>
+  <div class="route rise d1">
+    <div class="rt"><span class="lb">Goes to</span><b>Upright team</b><span class="em">${OFFICE_EMAIL}</span></div>
+    <div class="rt"><span class="lb">Copy to</span><b>You</b><span class="em">${esc(data.email)}</span></div>
+  </div>
+  <div class="sendbox rise d2${busy?" busy":""}">
+    <div class="btns">
+      <button type="button" class="btn go shine" data-send="both"${busy?" disabled":""}>${plane}${busy&&sendMode==="both"?"Sending…":"Send and download a copy"}</button>
+      <button type="button" class="btn" data-send="send"${busy?" disabled":""}>${busy&&sendMode==="send"?"Sending…":"Send to Upright Team"}</button>
+    </div>
+    ${busy?flightHTML()+'<p class="note warn" role="status">Please don\'t close this page – your answers are being sent.</p>':""}
+    ${PREVIEW?`<p class="note warn" style="margin-top:14px">This is a preview copy, so it can't send. Please use the link in the email we sent you.</p>`:""}
+  </div>
+  <p class="status" id="status" role="status"></p>
+  <div class="nav"><button type="button" class="btn" data-view="review"${busy?" disabled":""}>Back to your answers</button></div>`;
+}
+/* bird carrying the form to Upright, with a progress bar, while sending */
+const BIRD=`<svg viewBox="0 0 76 48" aria-hidden="true"><g class="wing wb"><path d="M28 24C29 13 37 6 47 4c-4 4-7 8-9 12-2 4-5 7-8 10z" fill="#6F7884"/></g><path d="M17 25 5 20l-2 8 2 4 12-3z" fill="#7B848F"/><path d="M5 20.5 3 28l2 3.6 2.2-.6-.8-9.6z" fill="#353C45"/><path d="M14 26c4-8 18-10 28-7 5 1 8 4 8 7-2 6-12 9-22 8-6-1-11-3-14-8z" fill="#A3ACB6"/><path d="M28 34c-4-1-9-3-12-6 5 2 11 3 16 2z" fill="#8C95A0"/><path d="M41 18.5c3-5 9-6.5 12-3.5-1 5-4 9-8 10-2-2-3-4.5-4-6.5z" fill="#4E9B78"/><path d="M44 23c2-2 5-3 7-3-1 3-3 5-6 6z" fill="#8A5FB0" opacity=".85"/><circle cx="53" cy="17" r="6" fill="#8A939E"/><path d="M58.3 16.6 64 18.6l-5.7 1.7z" fill="#3A3F46"/><ellipse cx="58.3" cy="16.9" rx="1.2" ry=".8" fill="#EEF0F2"/><circle cx="54.6" cy="16" r="1.35" fill="#E48A2C"/><circle cx="54.8" cy="16" r=".6" fill="#111"/><path d="M27 34.5l-1.5 3M30 34.5l-.8 3" stroke="#D77A8C" stroke-width="1.3" stroke-linecap="round"/><g transform="translate(61 17.5) rotate(8)"><rect width="13" height="9" rx="1.5" fill="#fff" stroke="#1F63A8" stroke-width="1.2"/><path d="M.8.8 6.5 5.4 12.2.8" fill="none" stroke="#1F63A8" stroke-width="1.2"/></g><g class="wing wf"><path d="M26 24C27 11 37 3 51 1c-5 4-9 9-11 13-3 5-7 9-11 12z" fill="#BCC3CB"/><path d="M51 1c-5 2-8 5-10 8l4-.6c2-3 4-5.4 6-7.4z" fill="#48505A"/><path d="M31 18l7-5M33 21.5l7-5" stroke="#3E4650" stroke-width="1.7" stroke-linecap="round"/></g></svg>`;
+function flightHTML(){return `<div class="flight" role="progressbar" aria-label="Sending your answers" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(flight.pct)}" id="flight">
+  <div class="sky"><div class="trail" id="ftrail" style="width:${flight.pct}%"></div><div class="bird" id="fbird" style="left:${flight.pct}%">${BIRD}</div><div class="nest" title="Upright team"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20v-5h6v5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Upright</span></div></div>
+  <div class="pbar"><i id="fbar" style="width:${flight.pct}%"></i></div>
+  <div class="pmeta"><span id="fmsg">${esc(flight.msg)}</span><span id="fpct">${Math.round(flight.pct)}%</span></div></div>`;}
+const flight={pct:0,msg:"",t0:0,est:6000,timer:0};
+function flightPaint(){const p=flight.pct,r=Math.round(p);const g=id=>document.getElementById(id);
+  if(g("fbird"))g("fbird").style.left=p+"%";if(g("ftrail"))g("ftrail").style.width=p+"%";if(g("fbar"))g("fbar").style.width=p+"%";
+  if(g("fpct"))g("fpct").textContent=r+"%";if(g("fmsg"))g("fmsg").textContent=flight.msg;if(g("flight"))g("flight").setAttribute("aria-valuenow",r);}
+function flightMsg(m){flight.msg=m;flightPaint();}
+function flightStart(bytes){clearInterval(flight.timer);flight.pct=0;flight.t0=Date.now();flight.est=4000+bytes/60;flight.msg="Preparing your Response Form…";
+  flight.timer=setInterval(()=>{const e=Date.now()-flight.t0;flight.pct=Math.max(flight.pct,92*(1-Math.exp(-e/flight.est)));flightPaint();},120);}
+function flightEnd(){clearInterval(flight.timer);flight.pct=100;flight.msg="Delivered to the Upright team";flightPaint();const n=document.querySelector(".nest");if(n)n.classList.add("got");return new Promise(r=>setTimeout(r,900));}
+function flightStop(){clearInterval(flight.timer);flight.pct=0;}
+
+/* fireworks for the thank-you page (skipped when the device asks for reduced motion) */
+function fireworks(){
+  try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;}catch(e){}
+  const cv=document.createElement("canvas");cv.className="fw";document.body.appendChild(cv);
+  const cx=cv.getContext("2d"),dpr=Math.min(devicePixelRatio||1,2);
+  const size=()=>{cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);};size();addEventListener("resize",size);
+  const COL=["#1F63A8","#4FAE4A","#F2C230","#6FAAE3","#E0533A","#9B59D0"];
+  const rockets=[],sparks=[];let t0=performance.now(),launched=0,last=0;
+  const launch=()=>{const w=innerWidth,h=innerHeight;rockets.push({x:w*(.15+Math.random()*.7),y:h,vy:-(h*.011+Math.random()*h*.004),ty:h*(.15+Math.random()*.3),c:COL[Math.floor(Math.random()*COL.length)]});launched++;};
+  const burst=r=>{const n=46+Math.floor(Math.random()*20),sp=2.2+Math.random()*1.6;for(let i=0;i<n;i++){const a=Math.PI*2*i/n,v=sp*(.6+Math.random()*.5);sparks.push({x:r.x,y:r.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:1,c:Math.random()<.25?"#FFFFFF":r.c});}};
+  function frame(now){
+    const el=now-t0;
+    if(el<3600&&now-last>330){launch();if(Math.random()<.5)launch();last=now;}
+    cx.clearRect(0,0,innerWidth,innerHeight);
+    for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];r.y+=r.vy;r.vy*=.985;cx.fillStyle=r.c;cx.beginPath();cx.arc(r.x,r.y,2.4,0,7);cx.fill();if(r.y<=r.ty||r.vy>-1){burst(r);rockets.splice(i,1);}}
+    for(let i=sparks.length-1;i>=0;i--){const p=sparks[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.045;p.vx*=.985;p.vy*=.985;p.life-=.012;if(p.life<=0){sparks.splice(i,1);continue;}cx.globalAlpha=Math.max(p.life,0);cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,1.9,0,7);cx.fill();}
+    cx.globalAlpha=1;
+    if(el<3600||rockets.length||sparks.length)requestAnimationFrame(frame);else{removeEventListener("resize",size);cv.remove();}
+  }
+  launch();requestAnimationFrame(frame);
+}
+
+/* ================= address suggestions (Geoapify, looked up through our server) ================= */
+let geoT=0,geoSeq=0,geoBox=null,geoEl=null,geoRes=[],geoAct=-1,geoOff=false;
+function geoClose(){if(geoBox){geoBox.remove();geoBox=null;}geoEl=null;geoRes=[];geoAct=-1;}
+function geoFilter(el){return (el.dataset.geo==="home"||/post_addr/.test(el.dataset.path))&&inAus(data)?"countrycode:au":"";}
+function geoLabel(o){return o.formatted||[o.address_line1,o.address_line2].filter(Boolean).join(", ");}
+function geoShow(el){
+  if(geoBox)geoBox.remove();geoBox=null;
+  if(!geoRes.length)return;
+  geoBox=document.createElement("div");geoBox.className="geo";geoBox.setAttribute("role","listbox");
+  geoBox.innerHTML=geoRes.map((o,i)=>`<button type="button" role="option" data-gi="${i}"${i===geoAct?' class="act"':""}>${esc(geoLabel(o))}</button>`).join("")+'<div class="by">Powered by <a href="https://www.geoapify.com/" target="_blank" rel="noopener">Geoapify</a> · © OpenStreetMap contributors</div>';
+  el.insertAdjacentElement("afterend",geoBox);geoEl=el;
+}
+function geoLookup(el){
+  const q=el.value.trim();clearTimeout(geoT);
+  if(geoOff||q.length<4||q.length>200){geoClose();return;}
+  geoT=setTimeout(()=>{
+    const n=++geoSeq;
+    apiNow("geo",{text:q,filter:geoFilter(el)}).then(j=>{
+      if(j&&j.off){geoOff=true;return;}
+      if(n!==geoSeq||document.activeElement!==el)return;
+      geoRes=((j&&j.results)||[]).filter(o=>o.formatted);geoAct=-1;geoShow(el);
+    }).catch(()=>{});
+  },350);
+}
+function geoPick(i){
+  const o=geoRes[i],el=geoEl;if(!o||!el)return;
+  const p=JSON.parse(el.dataset.path),typed=el.value;
+  geoClose();
+  if(el.dataset.geo==="home"){
+    const au=(o.country_code||"").toLowerCase()==="au";
+    const um=typed.match(/^\s*(?:((?:unit|apt|apartment|flat|suite|shop|level)\s*[\w-]+),?\s+|(\d+[a-z]?)\s*\/\s*(?=\d))/i);
+    let street=o.address_line1||[o.housenumber,o.street].filter(Boolean).join(" ");
+    if(!o.housenumber&&!o.street)street=typed;
+    if(!au&&o.suburb&&o.city&&o.suburb!==o.city&&street.indexOf(o.suburb)<0)street+=", "+o.suburb;
+    if(um&&street!==typed)street=um[1]?um[1]+", "+street:um[2]+"/"+street;
+    const base=p.slice(0,-1),set=(k,v)=>{if(v!=null&&v!=="")setPath([...base,k],String(v));};
+    set("a_street",street);
+    set("a_suburb",au?(o.suburb||o.city||o.town||o.village):(o.city||o.town||o.village||o.suburb||o.county));
+    set("a_post",o.postcode);
+    if(au&&AU_STATES.includes(o.state))set("a_state",o.state);
+    if(!au){set("a_state_os",o.state);set("a_country",o.country);}
+  }else setPath(p,geoLabel(o));
+  saveLocal();
+  const y=scrollY;render();scrollTo(0,y);
+  const nx=[...form.querySelectorAll("[data-path]")].find(x=>x.dataset.path===JSON.stringify(p));if(nx)nx.focus();
+}
+form.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.geo)geoLookup(e.target);});
+form.addEventListener("keydown",e=>{
+  if(!geoBox||e.target!==geoEl)return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();const n=geoRes.length;geoAct=e.key==="ArrowDown"?(geoAct+1)%n:(geoAct-1+n)%n;geoShow(geoEl);}
+  else if(e.key==="Enter"&&geoAct>=0){e.preventDefault();geoPick(geoAct);}
+  else if(e.key==="Escape")geoClose();
+});
+form.addEventListener("mousedown",e=>{const b=e.target.closest&&e.target.closest("[data-gi]");if(b){e.preventDefault();geoPick(+b.dataset.gi);}});
+form.addEventListener("focusout",e=>{if(e.target===geoEl)setTimeout(()=>{if(document.activeElement!==geoEl)geoClose();},150);});
+/* ================= events ================= */
+form.addEventListener("submit",e=>e.preventDefault());
+form.addEventListener("input",e=>{
+  const el=e.target;if(!el.dataset.path||el.dataset.ctl)return;
+  setPath(JSON.parse(el.dataset.path),el.value);el.classList.remove("pre");derive();saveLocal();refreshHtml();
+  const lv=document.getElementById("live__gap");if(lv){const t=histIssues(data);lv.textContent=t;lv.hidden=!t;}
+  if(touched){const f=el.closest(".f");if(f&&el.value)f.classList.remove("invalid");renderRail(visibleSections());}
+});
+form.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.dataset.doc){const k=el.dataset.doc;const add=[...(el.files||[])];
+    const over=add.filter(f=>f.size>MAX_UPLOAD);if(over.length){status(`${over[0].name} is larger than 20 MB. Please email it to ${OFFICE_EMAIL} instead.`,"bad");}
+    const ok=add.filter(f=>f.size<=MAX_UPLOAD);
+    if(totalSize()+ok.reduce((a,f)=>a+f.size,0)>MAX_UPLOAD){status(`Uploads can add up to 20 MB. Please email the rest to ${OFFICE_EMAIL}.`,"bad");}
+    else if(ok.length){files[k]=(files[k]||[]).concat(ok);logEvent("Document added: "+ok.map(f=>f.name).join(", "));}
+    const y=scrollY;render();scrollTo(0,y);return;}
+  if(!el.dataset.ctl){if(el.dataset.path&&view==="form"&&layoutKey()!==lastKey){const y=scrollY;render();scrollTo(0,y);}return;}
+  const p=JSON.parse(el.dataset.path);
+  const before=layoutKey();
+  if(el.dataset.bool)setPath(p,el.checked);
+  else if(el.dataset.multi){let a=getPath(p);a=Array.isArray(a)?a.slice():[];if(el.checked){if(!a.includes(el.value))a.push(el.value);}else a=a.filter(x=>x!==el.value);setPath(p,a);}
+  else setPath(p,el.value);
+  saveLocal();
+  if(layoutKey()!==before){const y=scrollY;render();scrollTo(0,y);return;}
+  // same questions still showing: just update the selected look in place
+  const grp=el.closest(".seg,.checks");
+  if(grp)grp.querySelectorAll("label").forEach(lb=>{const i=lb.querySelector("input");lb.classList.toggle("on",!!(i&&i.checked));});
+  const fw=el.closest(".f");if(fw&&!isEmpty(getPath(p)))fw.classList.remove("invalid");
+  refreshNotes();renderRail(visibleSections());
+});
+function layoutKey(){
+  const secs=visibleSections();const out=[secs.map(x=>x.id).join(",")];
+  if(view!=="form")return out.join("|");
+  const walk=(fields,base)=>{const scope=base.length?getPath(base):data;for(const f of fields){if(!isVis(f,scope))continue;out.push([...base,f.k].join("."));if(f.t==="repeat")ensureMin(f,base).forEach((_,i)=>walk(f.fields,[...base,f.k,i]));if(f.t==="note"||f.t==="gate"){const t=f.t==="gate"?(touched?f.test(data):""):(typeof f.l==="function"?f.l(data):f.l);out.push(String(t));}}};
+  const s0=secs[Math.min(cur,secs.length-1)];walk(s0.fields,[]);
+  missing(s0.fields,[]);out.push("chk:"+Object.keys(CHK).join(","));
+  return out.join("|");
+}
+const HTMLF={};SECTIONS.forEach(s=>s.fields.forEach(f=>{if(f.t==="html")HTMLF[f.k]=f;}));
+function refreshHtml(){form.querySelectorAll("[data-html]").forEach(el=>{const f=HTMLF[el.dataset.html];if(f)el.innerHTML=f.html(data);});}
+function refreshNotes(){refreshHtml();const lv=document.getElementById("live__gap");if(lv){const t=histIssues(data);lv.textContent=t;lv.hidden=!t;}}
+document.getElementById("mtoggle").addEventListener("click",()=>{const r=document.querySelector(".rail");const o=r.classList.toggle("open");document.getElementById("mtoggle").setAttribute("aria-expanded",o);});
+document.addEventListener("click",e=>{
+  if(e.target.closest("#railList button"))document.querySelector(".rail").classList.remove("open");
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.copytext!==undefined){const t=b.dataset.copytext;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent="Copied";},()=>{b.textContent=t;});setTimeout(()=>{if(b.isConnected)b.textContent="Copy";},2000);return;}
+  if(b.dataset.tip){const t=document.getElementById(b.dataset.tip);if(t){t.hidden=!t.hidden;b.setAttribute("aria-expanded",String(!t.hidden));}return;}
+  const secs=visibleSections();
+  if(b.dataset.go==="next"){const m=missing(secs[cur].fields,[]);
+    if(m.length){touched=true;render();const bad=form.querySelector(".f.invalid");if(bad){bad.scrollIntoView({block:"center",behavior:"smooth"});}status(`Please answer the ${m.length} highlighted question${m.length>1?"s":""} to continue.`,"bad");return;}
+    furthest=Math.max(furthest,cur+1);
+    if(cur<secs.length-1){cur++;}else{view="review";furthest=secs.length;}
+    saveServer(false);render();top();}
+  else if(b.dataset.go==="prev"){cur=Math.max(0,cur-1);render();top();}
+  else if(b.dataset.sec!=null){view="form";cur=+b.dataset.sec;render();top();}
+  else if(b.dataset.view){view=b.dataset.view;render();top();}
+  else if(b.dataset.add){const p=JSON.parse(b.dataset.add);const a=getPath(p)||[];a.push({});setPath(p,a);saveLocal();render();const cards=form.querySelectorAll(".rep .card");if(cards.length){const c=cards[cards.length-1];const inp=c.querySelector("input,select");if(inp)inp.focus();}}
+  else if(b.dataset.rm){const p=JSON.parse(b.dataset.rm);const i=p.pop();const a=getPath(p);if(Array.isArray(a)){if(b.dataset.sure){a.splice(i,1);saveLocal();const y=scrollY;render();scrollTo(0,y);}else{b.dataset.sure="1";b.textContent="Tap again to remove";b.style.color="var(--danger)";setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent="Remove";b.style.color="";}},3500);}}}
+  else if(b.dataset.unfile){const[k,i]=b.dataset.unfile.split(":");(files[k]||[]).splice(+i,1);if(!files[k].length)delete files[k];const y=scrollY;render();scrollTo(0,y);}
+  else if(b.dataset.act==="saveform")saveServer(true);
+  else if(b.dataset.act==="oshcreq")oshcRequest(b);
+  else if(b.dataset.act==="pdf")downloadPdf();
+  else if(b.dataset.send)sendForm(b.dataset.send);
+});
+function top(){const m=document.querySelector(".shell");const y=m.getBoundingClientRect().top+scrollY;if(scrollY>y||innerWidth<=860)scrollTo(0,y);}
+function status(t,cls){const s=document.getElementById("status");if(s){s.textContent=t;s.className="status"+(cls?" "+cls:"");}}
+function stamp(t){document.getElementById("saved").textContent=t;}
+
+/* ================= saving ================= */
+let lt;
+function saveLocal(){clearTimeout(lt);lt=setTimeout(()=>{try{localStorage.setItem(KEY+(TOKEN?":"+TOKEN:""),JSON.stringify({data,saved:Date.now()}));stamp("Saved on this device");}catch(e){}},300);}
+function saveServer(sendEmail){
+  saveLocal();
+  if(!TOKEN||!HAS_API||PREVIEW){if(sendEmail)status(PREVIEW?"This is a preview copy. Your answers are saved on this device only.":"Your answers are saved on this device. Use the same device and browser to continue later.","ok");return;}
+  if(sendEmail)status("Saving…");
+  const secs=visibleSections();
+  api("save",{data,step:view==="form"?secs[cur].title:"Review",furthest,email:!!sendEmail}).then(r=>{
+    if(!r||!r.ok)throw new Error((r&&r.message)||"not saved");
+    stamp("Saved "+new Date().toLocaleTimeString("en-AU",{hour:"numeric",minute:"2-digit"}));
+    if(sendEmail)status(`Saved. We've emailed a link to ${data.email||"you"} so you can continue any time, on any device.`,"ok");
+  }).catch(err=>{if(sendEmail)status("We couldn't save to our system just now ("+err.message+"). Your answers are still saved on this device.","bad");});
+}
+function logEvent(ev){if(TOKEN&&HAS_API&&!PREVIEW)api("event",{event:ev}).catch(()=>{});}
+
+/* ================= PDF ================= */
+const LOGO="data:image/png;base64,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";
+const pdfTxt=t=>String(t==null?"":t).replace(/[–—]/g,"-").replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/…/g,"...").replace(/✓/g,"").replace(/[^\x09\x0A\x0D\x20-\xFF]/g,"");
+function pdfName(){const c=(meta.clientId||"").replace(/[^A-Za-z0-9]/g,"");const n=(data.name||"").replace(/[\\/:*?"<>|]/g,"").trim();return [c,"500 Questionnaire",n].filter(Boolean).join(" - ")+".pdf";}
+function makePdf(){
+  if(!window.jspdf||!window.jspdf.jsPDF){status("The PDF tool didn't load. Check your internet connection and reload the page. Your answers are kept.","bad");return null;}
+  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"pt",format:"a4"});
+  const W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
+  try{doc.addImage(LOGO,"PNG",40,26,98,70);}catch(e){}
+  doc.setFont("helvetica","bold");doc.setFontSize(17);doc.setTextColor(27,35,48);doc.text("Student Visa Questionnaire",W-40,48,{align:"right"});
+  doc.setFont("helvetica","normal");doc.setFontSize(9.5);doc.setTextColor(91,101,115);
+  doc.text([pdfTxt(data.name||"")+(meta.clientId?"  |  Client ID "+meta.clientId:""),"Student visa (subclass 500)","Completed "+new Date().toLocaleString("en-AU",{day:"2-digit",month:"short",year:"numeric",hour:"numeric",minute:"2-digit"})],W-40,64,{align:"right"});
+  const y0=106;doc.setFillColor(31,99,168);doc.rect(40,y0,(W-80)*.6,3,"F");doc.setFillColor(79,174,74);doc.rect(40+(W-80)*.6,y0,(W-80)*.22,3,"F");doc.setFillColor(242,194,48);doc.rect(40+(W-80)*.82,y0,(W-80)*.18,3,"F");
+  const body=[];
+  visibleSections().forEach((s,i)=>{body.push([{content:(i+1)+". "+pdfTxt(s.title),colSpan:2,styles:{fillColor:[31,99,168],textColor:255,fontStyle:"bold",fontSize:10.5}}]);
+    sectionRows(s).forEach(r=>{if(r.grp)body.push([{content:pdfTxt(r.grp),colSpan:2,styles:{fillColor:[232,241,250],fontStyle:"bold",textColor:[31,99,168]}}]);
+      else body.push([pdfTxt(r.q),r.a===""?{content:r.req?"Not answered":"-",styles:{textColor:[161,92,18],fontStyle:"italic"}}:pdfTxt(r.a)]);});});
+  doc.autoTable({startY:120,body,theme:"grid",styles:{font:"helvetica",fontSize:9,cellPadding:5,lineColor:[220,225,232],lineWidth:.5,textColor:[27,35,48],valign:"top"},columnStyles:{0:{cellWidth:225,textColor:[91,101,115]}},margin:{left:40,right:40,top:40,bottom:50}});
+  const n=doc.internal.getNumberOfPages();
+  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text("Upright Migration Consultants  |  Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000  |  03 9620 9100  |  student@uprightmigration.com.au",40,H-24);doc.text("Page "+i+" of "+n,W-40,H-24,{align:"right"});}
+  return doc.output("blob");
+}
+function saveBlob(blob,name){try{const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove();},4000);return true;}catch(e){return false;}}
+function downloadPdf(){const b=makePdf();if(b&&saveBlob(b,pdfName()))status("Your copy has been downloaded. Check your Downloads folder.","ok");}
+const toB64=blob=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=()=>rej(new Error("a file couldn't be read"));r.readAsDataURL(blob);});
+
+/* ================= "Arrange my OSHC" ================= */
+function oshcRequest(b){
+  if(PREVIEW){status("This preview copy can't send. Please use the link in our email.","bad");return;}
+  b.disabled=true;b.textContent="Sending…";
+  hubNotice("oshc",{clientId:meta.clientId||"",name:data.name||"",email:data.email||"",mobile:data.mobile||"",
+    details:[["OSHC now",data.oshc||""],["Insurer",data.oshc_ins||""],["Cover ends",fmtDate(data.oshc_to||"")],["Last course ends",fmtDate(data.c_end||"")],["OSHC needed until",fmtDate(oshcEnd(data.c_end))],["Family included",hasFam(data)?"Yes":"No"]]})
+   .then(()=>{data.oshc_req=new Date().toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"});saveLocal();saveServer(false);const y=scrollY;render();scrollTo(0,y);})
+   .catch(()=>{b.disabled=false;b.textContent="Try again";status("We couldn't reach our team just now. Please call 03 9620 9100 or email "+OFFICE_EMAIL+".","bad");});
+}
+
+/* ================= send ================= */
+async function sendForm(mode){
+  if(sendState!=="idle")return;
+  if(PREVIEW){status("This preview copy can't send. Please use the link in our email.","bad");return;}
+  if(!HAS_API){status(`The form isn't connected yet. Please download a copy and email it to ${OFFICE_EMAIL}.`,"bad");return;}
+  const pdf=makePdf();if(!pdf)return;
+  derive();sendMode=mode;sendState="sending";flightStart(totalSize()+pdf.size);render();
+  try{
+    const up=[];if(totalSize())flightMsg("Attaching your documents…");
+    for(const x of visibleDocs())for(const f of (files[x.k]||[]))up.push({label:x.n,name:f.name,type:f.type||"application/octet-stream",b64:await toB64(f)});
+    const pdf64=await toB64(pdf);flightMsg("Flying your answers to the Upright team…");
+    const r=await api("submit",{data,pdf:pdf64,filename:pdfName(),files:up,download:mode==="both"});
+    if(!r||!r.ok)throw new Error((r&&r.message)||"server error");
+    const w=qWarnings();if(w.length)hubNotice("warnings",{clientId:meta.clientId||"",name:data.name||"",email:data.email||"",items:w}).catch(()=>{});
+    await flightEnd();
+    sendState="sent";
+    try{localStorage.removeItem(KEY+(TOKEN?":"+TOKEN:""));}catch(e){}
+    render();top();fireworks();
+    if(mode==="both")saveBlob(pdf,pdfName());
+  }catch(err){flightStop();sendState="idle";render();status("We couldn't send it just now ("+err.message+"). Please try again. If it keeps failing, call us on 03 9620 9100.","bad");}
+}
+
+/* ================= start ================= */
+function banner(html,ok){const b=document.getElementById("banner");b.innerHTML=html;b.className="banner"+(ok?" ok":"");b.hidden=false;}
+function getIn(o,p){for(const k of p){if(o==null)return undefined;o=o[k];}return o;}
+const blankVal=v=>v==null||v===""||(Array.isArray(v)&&v.every(x=>x==null||(typeof x==="object"&&Object.values(x).every(y=>y==null||y===""||(Array.isArray(y)&&!y.length)))));
+const DEFS={};SECTIONS.forEach(s=>s.fields.forEach(f=>{if(f.def!==undefined)DEFS[f.k]=f.def;}));
+const C_ALIAS={"usa":"United States of America","united states":"United States of America","us":"United States of America","uk":"United Kingdom","great britain":"United Kingdom","england":"United Kingdom","south korea":"Korea, South","republic of korea":"Korea, South","uae":"United Arab Emirates","viet nam":"Vietnam","prc":"China","people's republic of china":"China","ivory coast":"Côte d'Ivoire","burma":"Myanmar"};
+function normCountry(){const v=data.res_country;if(!v||COUNTRIES.includes(v))return;const l=String(v).trim().toLowerCase();const m=COUNTRIES.find(c=>c.toLowerCase()===l)||C_ALIAS[l];if(m)data.res_country=m;else delete data.res_country;}
+function applyDefaults(){normCountry();SECTIONS.forEach(s=>s.fields.forEach(f=>{if(f.def!==undefined&&(data[f.k]===undefined||data[f.k]===""))data[f.k]=f.def;}));}
+function applyPrefill(p){
+  meta=Object.assign(meta,p||{});
+  if(p&&p.data&&typeof p.data==="object"){meta.pdata=p.data;let n=0;Object.keys(p.data).forEach(k=>{const v=p.data[k];if(blankVal(v))return;if(blankVal(data[k])||data[k]===DEFS[k]){data[k]=JSON.parse(JSON.stringify(v));n++;}});
+    if(n)banner("We've already filled in some answers using the documents you gave us. They're shaded blue – please check each one and correct anything that's wrong.",true);}
+  [["name","name"],["email","email"],["mobile","phone"]].forEach(([k,src])=>{if(p&&p[src]){meta["pre_"+k]=p[src];if(!data[k])data[k]=p[src];}});
+  if(data.name&&!data.fam_n&&!data.giv_n){const n=splitName(data.name);data.fam_n=n.fam;data.giv_n=n.giv;}
+  if(meta.stream&&!data.loc){if(/^In Australia/i.test(meta.stream))data.loc="Yes";else if(/^Outside/i.test(meta.stream))data.loc="No";}
+  applyDefaults();
+  if(meta.name)document.getElementById("heroTitle").textContent=`${meta.name.split(" ")[0]}, your student visa questionnaire`;
+}
+function start(){
+  applyDefaults();
+  if(PREVIEW)banner("This is a preview copy of the questionnaire. It can't send answers. Please use the link in the email we sent you.");
+  render();
+  if(!TOKEN||!HAS_API||PREVIEW){if(Object.keys(data).length)stamp("Answers restored on this device");return;}
+  api("load",{}).then(r=>{
+    if(!r||!r.ok){banner(r&&r.message?esc(r.message):"We couldn't find your questionnaire. Please use the latest link in our email, or call us on 03 9620 9100.");return;}
+    if(r.status==="submitted"){banner("You have already sent this questionnaire. Thank you. If you need to change something, reply to our email or call 03 9620 9100.",true);}
+    if(r.data&&typeof r.data==="object"&&(!Object.keys(data).length||(r.savedAt&&r.savedAt>(JSON.parse(localStorage.getItem(KEY+":"+TOKEN)||"{}").saved||0)))){data=r.data;if(typeof r.furthest==="number")furthest=r.furthest;stamp("Your saved answers have been loaded");}
+    applyPrefill(r.prefill||{});
+    render();
+  }).catch(()=>{banner("We couldn't reach our system just now. You can still fill in the form; your answers save on this device.");});
+}
+start();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
