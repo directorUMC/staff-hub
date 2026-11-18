@@ -839,6 +839,7 @@ function hubLoad(){
     empDefaults();syncApps();deriveEmp();
     const lab=appLabels(data);
     document.getElementById("heroEyebrow").textContent=lab.join(" · ")+(r.business?" · "+r.business:"");
+    document.title="Employer Questionnaire – "+lab.join(" and ");
     document.getElementById("heroIntro").textContent="This tells us what we need to prepare the "+lab.join(" and ")+". Questions appear only when they apply to you. Your answers are saved as you go – press Save and finish later to get a link to continue on any device.";
     if(r.status==="submitted"){hubSent=true;sentOk=true;}
     render();
