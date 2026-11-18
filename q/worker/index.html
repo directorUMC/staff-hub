@@ -998,7 +998,7 @@ function makePdf(){
       else body.push([pdfTxt(r.q),r.a===""?{content:r.req?"Not answered":"-",styles:{textColor:[161,92,18],fontStyle:"italic"}}:pdfTxt(r.a)]);});});
   doc.autoTable({startY:120,body,theme:"grid",styles:{font:"helvetica",fontSize:9,cellPadding:5,lineColor:[220,225,232],lineWidth:.5,textColor:[27,35,48],valign:"top"},columnStyles:{0:{cellWidth:225,textColor:[91,101,115]}},margin:{left:40,right:40,top:40,bottom:50}});
   const n=doc.internal.getNumberOfPages();
-  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text("Upright Migration Consultants  |  Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000  |  03 9620 9100  |  work@uprightmigration.com.au",40,H-24);doc.text("Page "+i+" of "+n,W-40,H-24,{align:"right"});}
+  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text("Upright Migration Consultants  |  Suite 406, 2 Queen St, Melbourne VIC 3000  |  03 9620 9100  |  work@uprightmigration.com.au",40,H-24);doc.text("Page "+i+" of "+n,W-40,H-24,{align:"right"});}
   return doc.output("blob");
 }
 function saveBlob(blob,name){try{const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove();},4000);return true;}catch(e){return false;}}

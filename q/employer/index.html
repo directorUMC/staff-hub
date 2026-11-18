@@ -238,6 +238,7 @@ const YN=["Yes","No"];
 const sbsExpired=d=>false;
 /* What the form is for. Staff tick SBS / 482 nomination / 186 nomination on the Send Employer page; the form asks only what those need. */
 let HUB_APPS=null;
+const syncApps=()=>{if(Array.isArray(HUB_APPS)&&HUB_APPS.length)data.t_sponsor=HUB_APPS.includes("SBS")?"No":"Yes";};
 const appsOf=d=>{if(Array.isArray(HUB_APPS)&&HUB_APPS.length){const a=[];if(HUB_APPS.includes("SBS"))a.push("sbs");if(HUB_APPS.includes("482"))a.push("n482");if(HUB_APPS.includes("186"))a.push("n186");return a;}
   const a=[];if(d.t_sponsor==="No"||sbsExpired(d))a.push("sbs");a.push("n482","n186");return a;};
 const sbsLabel=d=>"Standard Business Sponsorship ("+(sbsExpired(d)?"renewal":"new")+")";
@@ -492,18 +493,18 @@ const EMP_I_ADS={ad_pos:"Which job this advertisement was for.",ad_where:"The we
 const yx=(k,l)=>[{k,t:"radio",l,req:1,opts:YN},{k:k+"_det",t:"textarea",l:"Please explain",req:1,show:eq(k,"Yes")}];
 const SECTIONS=[
 {id:"apps",title:"Getting started",intro:"",introFn:d=>"This questionnaire covers your "+appLabels(d).join(" and ")+". First, tell us about your sponsorship so we only ask what applies.",fields:[
- {k:"t_sponsor",t:"radio",l:"Does your business have a Standard Business Sponsorship (SBS)?",req:1,opts:["Yes","No"]},
+ {k:"t_sponsor",t:"radio",l:"Does your business have a Standard Business Sponsorship (SBS)?",req:1,opts:["Yes","No"],show:()=>!(Array.isArray(HUB_APPS)&&HUB_APPS.length)},
  {k:"t_sbs_letter",t:"file",doc:"SBS letter",l:"Please attach your SBS approval (grant) letter or lodgement acknowledgement letter",show:d=>d.t_sponsor==="Yes"},
  {k:"t_past",t:"radio",l:"Has your business been a standard business sponsor in the past?",req:1,opts:YN,show:eq("t_sponsor","No")},
  {k:"t_past_letter",t:"file",doc:"Previous SBS letter",l:"Please attach your previous SBS approval (grant) letter or lodgement acknowledgement letter",show:d=>d.t_sponsor==="No"&&d.t_past==="Yes"},
- {k:"t_la_now",t:"radio",l:"Does your business currently have a Labour Agreement?",req:1,opts:YN},
+ {k:"t_la_now",t:"radio",l:"Does your business currently have a Labour Agreement?",req:1,opts:YN,def:"No"},
  {k:"t_la_now_doc",t:"file",doc:"Current Labour Agreement",l:"Please attach your Labour Agreement approval letter or lodgement acknowledgement letter",show:eq("t_la_now","Yes")},
- {k:"t_la_past",t:"radio",l:"Has your business previously had a Labour Agreement?",req:1,opts:YN},
+ {k:"t_la_past",t:"radio",l:"Has your business previously had a Labour Agreement?",req:1,opts:YN,def:"No"},
  {k:"t_la_past_doc",t:"file",doc:"Previous Labour Agreement",l:"Please attach your previous Labour Agreement approval letter or lodgement acknowledgement letter",show:eq("t_la_past","Yes")},
- {k:"t_other_app",t:"radio",l:"Has your business previously lodged a different type of application with the Department of Home Affairs?",req:1,opts:YN},
+ {k:"t_other_app",t:"radio",l:"Has your business previously lodged a different type of application with the Department of Home Affairs?",req:1,opts:YN,def:"No"},
  {k:"t_other_app_doc",t:"file",doc:"Other application",l:"Please attach the grant or lodgement acknowledgement letter for that application",show:eq("t_other_app","Yes")},
- {k:"t_aus",t:"radio",l:"Is your business operating in Australia?",req:1,opts:YN},
- {k:"t_att",t:"radio",l:"Is your business an approved Australian Trusted Trader?",req:1,opts:YN,tip:'Refer to the <a href="https://www.abf.gov.au/about-us/what-we-do/trustedtrader" target="_blank" rel="noopener">Department\'s website</a> for more information about becoming an Australian Trusted Trader.'},
+ {k:"t_aus",t:"radio",l:"Is your business operating in Australia?",req:1,opts:YN,def:"Yes"},
+ {k:"t_att",t:"radio",l:"Is your business an approved Australian Trusted Trader?",req:1,opts:YN,def:"No",tip:'Refer to the <a href="https://www.abf.gov.au/about-us/what-we-do/trustedtrader" target="_blank" rel="noopener">Department\'s website</a> for more information about becoming an Australian Trusted Trader.'},
  {k:"_result",t:"note",l:d=>"We'll prepare: "+appLabels(d).join(" + ")+". We'll confirm this with you before lodging.",show:d=>!!d.t_sponsor}
 ]},
 {id:"contact",title:"Contact person",intro:"The person we should deal with about these applications.",fields:[
@@ -739,7 +740,7 @@ const files={};const FILE_KEYS=[];SECTIONS.forEach(sc=>sc.fields.forEach(f=>{if(
 try{const c=(window.__CID||new URLSearchParams(location.search).get("c")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,12);if(c&&data.__cid!==c){data.__cid=c;localStorage.setItem(SKEY,JSON.stringify(data));}}catch(e){}
 const form=document.getElementById("form");
 if(!HUBMODE&&data.__cid&&SITE_MODE)fetch(HUB_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({rpc:"qf.prefill",payload:{form:"employer",t:data.__cid}})})
-  .then(r=>r.json()).then(j=>{if(j&&j.ok&&j.data&&Array.isArray(j.data.apps)&&j.data.apps.length){HUB_APPS=j.data.apps;render();}}).catch(()=>{});
+  .then(r=>r.json()).then(j=>{if(j&&j.ok&&j.data&&Array.isArray(j.data.apps)&&j.data.apps.length){HUB_APPS=j.data.apps;syncApps();render();}}).catch(()=>{});
 
 function visibleSections(){return SECTIONS.filter(s=>!s.show||s.show(data));}
 function getPath(p){let o=data;for(const k of p){if(o==null)return undefined;o=o[k];}return o;}
@@ -829,13 +830,13 @@ const blankV=v=>v==null||v===""||(Array.isArray(v)&&v.every(x=>x==null||(typeof 
 function hubLoad(){
   return hub("qf.load").then(r=>{
     if(!r.ok){const b=document.getElementById("form");status(r.message);return;}
-    hubMeta=r;HUB_APPS=r.apps||null;
+    hubMeta=r;HUB_APPS=r.apps||null;syncApps();
     if(r.data&&typeof r.data==="object"&&(!Object.keys(data).length||r.savedAt>(+data.__saved||0)))data=r.data;
     data.__cid=r.clientId;
     const nm=splitName(r.name||"");
     [["c_fam",nm.fam],["c_giv",nm.giv],["c_email",r.email],["c_phone",r.phone],["b_legal",r.business]].forEach(([k,v])=>{if(v&&blankV(data[k]))data[k]=v;});
     Object.keys(r.pre||{}).forEach(k=>{const v=r.pre[k];if(!blankV(v)&&(blankV(data[k])))data[k]=JSON.parse(JSON.stringify(v));});
-    empDefaults();deriveEmp();
+    empDefaults();syncApps();deriveEmp();
     const lab=appLabels(data);
     document.getElementById("heroEyebrow").textContent=lab.join(" · ")+(r.business?" · "+r.business:"");
     document.getElementById("heroIntro").textContent="This tells us what we need to prepare the "+lab.join(" and ")+". Questions appear only when they apply to you. Your answers are saved as you go – press Save and finish later to get a link to continue on any device.";
@@ -854,7 +855,7 @@ function render(focusPath){
   if(reviewing){renderReview(secs);return;}
   const s=secs[cur];const miss=new Set(missing(s.fields,[]));
   form.innerHTML=`<h2 class="sec-h">${esc(s.title)}</h2><p class="sec-intro">${esc(s.introFn?s.introFn(data):s.intro||"")}</p><p class="status" id="status" role="status"></p><div class="grid">${s.fields.map(f=>fieldHTML(f,[],data,miss)).join("")}</div>
-  <div class="nav"><button type="button" class="btn" data-go="prev"${cur===0?" hidden":""}>Back</button>${HUBMODE?'<button type="button" class="btn" data-act="later">Save and finish later</button>':"<span></span>"}<button type="button" class="btn primary" data-go="next">${cur===secs.length-1?"Review and download":"Continue"}</button></div>`;
+  <div class="nav"><button type="button" class="btn" data-go="prev"${cur===0?" hidden":""}>Back</button>${HUBMODE?'<button type="button" class="btn" data-act="later">Save and finish later</button>':"<span></span>"}<button type="button" class="btn primary" data-go="next">${cur===secs.length-1?(SITE_MODE?"Review and send":"Review and download"):"Continue"}</button></div>`;
   if(focusPath){const el=form.querySelector(`[data-path='${CSS.escape(focusPath)}']${focusPath.val!=null?"":""}`);if(el)el.focus({preventScroll:true});}
 }
 
@@ -988,7 +989,7 @@ function summaryText(){
 async function copyText(){
   const box=document.getElementById("textout"),ta=document.getElementById("textarea-out");
   ta.value=summaryText();box.hidden=false;ta.focus();ta.select();
-  try{await navigator.clipboard.writeText(ta.value);status("Answers copied. Paste them into an email to info@uprightmigration.com.au.");}
+  try{await navigator.clipboard.writeText(ta.value);status("Answers copied. Paste them into an email to work@uprightmigration.com.au.");}
   catch(e){try{document.execCommand("copy");status("Answers selected below – copy them if they weren't copied automatically.");}catch(_){status("Select the text below and copy it.");}}
 }
 function nameBase(){return ((data.b_trading||data.b_legal||"Employer").split(",")[0].trim().replace(/[^\w\- ]+/g,"").replace(/\s+/g,"-")||"Employer");}
@@ -1005,7 +1006,7 @@ table{width:100%;border-collapse:collapse;margin-bottom:6px}td,th{border:1px sol
 td.q{width:42%;color:#5B6573}th.sub{background:#F5F7F9;font-weight:600}th.grp{background:#E4F0EC;font-weight:600}
 ul{margin:0;padding-left:18px}.blank{color:#A15C12;font-style:italic}tr{page-break-inside:avoid}
 @media print{body{margin:0}}</style></head><body>
-<header><div class="b">Upright Migration Consultants</div><div class="c">Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000<br>03 9620 9100 · info@uprightmigration.com.au</div></header>
+<header><div class="b">Upright Migration Consultants</div><div class="c">Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000<br>03 9620 9100 · work@uprightmigration.com.au</div></header>
 <h1>Employer questionnaire</h1><p class="meta">${esc(data.b_legal||"Business name not entered")}${data.b_abn?" · ABN "+esc(data.b_abn):""} · Downloaded ${today}</p>${body}</body></html>`;
 }
 let dl=null;
@@ -1055,7 +1056,7 @@ function makePdfBlob(){
     const body=[];if(ap)body.push([{content:"Applications: "+pdfTxt(ap),colSpan:2,styles:{fillColor:[232,241,250],fontStyle:"bold",textColor:[31,99,168]}}]);visibleSections().forEach((sct,i)=>{body.push([{content:(i+1)+". "+pdfTxt(sct.title),colSpan:2,styles:{fillColor:[31,99,168],textColor:255,fontStyle:"bold",fontSize:10.5}}]);pdfRows(sct.fields,[],body);});
     doc.autoTable({startY:124,body,theme:"grid",styles:{font:"helvetica",fontSize:9,cellPadding:5,lineColor:[220,225,232],lineWidth:.5,textColor:[27,35,48],valign:"top"},columnStyles:{0:{cellWidth:215,textColor:[91,101,115]}},margin:{left:40,right:40,top:40,bottom:50}});
     const n=doc.internal.getNumberOfPages();
-    for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text("Upright Migration Consultants  |  Suite 406, Level 4, 2 Queen St, Melbourne VIC 3000  |  03 9620 9100  |  info@uprightmigration.com.au",40,H-24);doc.text("Page "+i+" of "+n,W-40,H-24,{align:"right"});}
+    for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text("Upright Migration Consultants  |  Suite 406, 2 Queen St, Melbourne VIC 3000  |  03 9620 9100  |  work@uprightmigration.com.au",40,H-24);doc.text("Page "+i+" of "+n,W-40,H-24,{align:"right"});}
     return doc.output("blob");
   }catch(e){status("The PDF couldn't be created. Try again, or use “Copy answers as text”.");return null;}
 }
@@ -1136,7 +1137,7 @@ async function sendForm(){
     status(`Thank you – your questionnaire has been sent to Upright Migration${j.saved?" and saved to your file":""}${data.c_email&&!noCopy?`. A copy has been emailed to ${data.c_email}`:""}.${sendMode==="both"?" A copy has also been downloaded to this device.":""}`);
   }catch(e){
     if(btn){btn.disabled=false;btn.textContent="Try sending again";}
-    status("We couldn't send it just now ("+e.message+"). Please try again. If it keeps failing, download the PDF and email it to info@uprightmigration.com.au.");
+    status("We couldn't send it just now ("+e.message+"). Please try again. If it keeps failing, download the PDF and email it to work@uprightmigration.com.au.");
   }finally{sending=false;}
 }
 function downloadSummary(){offer(`${nameBase()}-Employer-Questionnaire.html`,summaryHTML());}
