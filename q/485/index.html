@@ -265,15 +265,17 @@ const Q_CHAR=[
  ["Does anyone have outstanding debts to the Australian Government or any public authority in Australia?","For example unpaid Centrelink debts, unpaid fines or unpaid hospital bills in Australia. A HECS/HELP loan doesn't count."]
 ];
 /* One radio per question (pre-set to No), a details box when any is Yes, and a "read every question" tick at the bottom. */
-function hcFields(kind,who){
-  const list=kind==="h"?Q_HEALTH:Q_CHAR,any=d=>list.some((_,i)=>d[kind+"_"+(i+1)]==="Yes");
+/* extra: more questions some applications ask (e.g. Q_HEALTH_WORK for the 482 and 186 visas) */
+const Q_HEALTH_WORK=[["Does anyone intend to be in a classroom situation for more than 3 months (for example as a student, teacher, lecturer or observer)?","For example a teacher, tutor or a student in a course of more than 3 months."]];
+function hcFields(kind,who,extra){
+  const list=(kind==="h"?Q_HEALTH:Q_CHAR).concat(extra||[]),any=d=>list.some((_,i)=>d[kind+"_"+(i+1)]==="Yes");
   const out=list.map((q,i)=>({k:kind+"_"+(i+1),t:"radio",l:(i+1)+". "+q[0],req:1,opts:YN,def:"No",i:q[1]+" We've put the usual answer, No. Change it to Yes if it applies to "+(who||"you or anyone in your application")+"."}));
   out.push({k:kind+"_det",t:"textarea",l:"For each Yes: the question number, who it applies to, and the details",req:1,show:any,i:kind==="h"?"For example “Question 3 – me – nursing placement at the Royal Melbourne Hospital from March 2027”. Include dates and any treatment.":"For example “Question 2 – me – fined for speeding, Delhi, May 2019”. Include the offence, the date, the country and the outcome. Our team will talk to you before lodging."});
   out.push({k:kind+"_read",t:"confirm",l:"Before you continue",req:1,stmts:[],box:"I have read every question on this page",i:"Please read each question before you tick. Your answers are part of a legal declaration to the Department of Home Affairs."});
   return out;
 }
 /* Keeps the old one-line answer (h_any / c_any) that the office scripts and staff already use. */
-function hcDerive(d){["h","c"].forEach(kind=>{const list=kind==="h"?Q_HEALTH:Q_CHAR;if(!(kind+"_1" in d))return;d[kind+"_any"]=list.some((_,i)=>d[kind+"_"+(i+1)]==="Yes")?"Yes":"No";});}
+function hcDerive(d){["h","c"].forEach(kind=>{if(!(kind+"_1" in d))return;let any=false;for(let i=1;i<=40;i++)if(d[kind+"_"+i]==="Yes")any=true;d[kind+"_any"]=any?"Yes":"No";});}
 
 /* ---- answer checks: each returns a message when an answer is filled in but can't be right ---- */
 const todayStr=()=>{const t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");};
